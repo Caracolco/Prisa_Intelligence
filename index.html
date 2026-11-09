@@ -1,0 +1,630 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inteligencia de Negocios</title>
+<meta name="description" content="Modelo integrado de Inteligencia de Negocios de Prisa Media Colombia: Audiencia, Comercial y Market en una sola área.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f7f9; --surface:#ffffff; --surface-2:#eef1f4; --ink:#1d2228; --ink-2:#4a5561; --ink-3:#7b8692;
+  --line:#dde2e8; --dark:#1e2329;
+  --aud:#0096DC; --aud-soft:#e3f3fb; --aud-ink:#006a9c;
+  --com:#FD006E; --com-soft:#ffe6f1; --com-ink:#c00053;
+  --mkt:#FFCB00; --mkt-soft:#fff6d6; --mkt-ink:#8a6d00;
+  --new:#18a058;
+  --shadow:0 1px 2px rgba(20,30,40,.06),0 6px 20px rgba(20,30,40,.06);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#121518; --surface:#1a1e23; --surface-2:#232830; --ink:#eef1f4; --ink-2:#b4bdc7; --ink-3:#8692a0;
+    --line:#2d343c; --dark:#0b0d10;
+    --aud-soft:#0d2c3c; --aud-ink:#5cc3f2; --com-soft:#3a1023; --com-ink:#ff5fa3; --mkt-soft:#3a3006; --mkt-ink:#ffd94d;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.25); color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#121518; --surface:#1a1e23; --surface-2:#232830; --ink:#eef1f4; --ink-2:#b4bdc7; --ink-3:#8692a0;
+  --line:#2d343c; --dark:#0b0d10;
+  --aud-soft:#0d2c3c; --aud-ink:#5cc3f2; --com-soft:#3a1023; --com-ink:#ff5fa3; --mkt-soft:#3a3006; --mkt-ink:#ffd94d;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.25); color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+@media (max-width:600px){.wrap{padding:0 16px}}
+
+/* nav */
+nav.top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+nav.top .wrap{display:flex;align-items:center;gap:20px;height:58px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.01em;text-decoration:none;white-space:nowrap}
+.dots{display:inline-flex;gap:3px}.dots i{width:9px;height:9px;border-radius:50%;display:block}
+.links{display:flex;gap:18px;margin-left:auto;font-size:14px;color:var(--ink-2);overflow-x:auto;scrollbar-width:none}
+.links a{text-decoration:none;white-space:nowrap}.links a:hover{color:var(--ink)}
+#themeBtn{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:8px;width:34px;height:34px;cursor:pointer;flex:none}
+@media (max-width:820px){.links{display:none}#themeBtn{margin-left:auto}}
+
+/* hero */
+.hero{background:var(--dark);color:#fff;overflow:hidden;position:relative}
+.hero .wrap{padding-top:72px;padding-bottom:72px;display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--mkt)}
+.hero h1{font-size:clamp(34px,5.4vw,60px);line-height:1.04;letter-spacing:-.03em;margin:14px 0 18px;font-weight:800}
+.hero h1 span{color:var(--mkt)}
+.hero p.lead{font-size:19px;color:#c9d1d9;max-width:560px;margin:0 0 28px}
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.chip{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;font-weight:600;font-size:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14)}
+.chip i{width:10px;height:10px;border-radius:50%}
+.hero-art svg{width:100%;height:auto;max-width:420px;display:block;margin:auto}
+@media (max-width:820px){.hero .wrap{grid-template-columns:1fr;padding-top:48px;padding-bottom:48px}.hero-art{order:-1}.hero-art svg{max-width:260px}}
+
+/* sections */
+section{padding:72px 0}
+section.alt{background:var(--surface)}
+.sec-head{max-width:760px;margin-bottom:36px}
+.sec-head .eyebrow{color:var(--com)}
+h2{font-size:clamp(26px,3.4vw,38px);letter-spacing:-.02em;line-height:1.12;margin:10px 0 12px}
+.sec-head p{color:var(--ink-2);font-size:17px;margin:0}
+h3{font-size:19px;margin:0 0 8px;letter-spacing:-.01em}
+.muted{color:var(--ink-2)}
+.small{font-size:14px}
+
+/* problem/objective */
+.po{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:24px;box-shadow:var(--shadow)}
+section.alt .card{background:var(--bg)}
+.po .card .tag{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.po .big{font-size:22px;font-weight:700;line-height:1.3;margin:10px 0 0;letter-spacing:-.01em}
+.goals{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:20px}
+.goal{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;font-size:14px;color:var(--ink-2)}
+.goal b{display:block;color:var(--ink);font-size:15px;margin-bottom:4px}
+.goal .n{font-weight:800;font-size:13px;color:var(--ink-3)}
+@media (max-width:900px){.po{grid-template-columns:1fr}.goals{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.goals{grid-template-columns:1fr}}
+
+/* fronts */
+.fronts{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.front{border-radius:18px;background:var(--surface);border:1px solid var(--line);overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--shadow)}
+.front .hd{padding:22px 22px 18px;position:relative}
+.front .letter{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-weight:800;font-size:20px;color:#fff;margin-bottom:12px}
+.front.m .letter{color:#1d2228}
+.front .hd h3{font-size:22px}
+.front .hd p{margin:0;color:var(--ink-2);font-size:15px}
+.front .bd{padding:0 22px 22px;display:flex;flex-direction:column;gap:16px;flex:1}
+.front h4{font-size:12px;letter-spacing:.1em;text-transform:uppercase;margin:0 0 8px;color:var(--ink-3)}
+.pills{display:flex;flex-wrap:wrap;gap:6px}
+.pill{font-size:13px;padding:5px 10px;border-radius:999px;font-weight:600}
+.front.a .pill{background:var(--aud-soft);color:var(--aud-ink)}
+.front.c .pill{background:var(--com-soft);color:var(--com-ink)}
+.front.m .pill{background:var(--mkt-soft);color:var(--mkt-ink)}
+.front ul{margin:0;padding-left:18px;font-size:14px;color:var(--ink-2)}
+.front ul li{margin:3px 0}
+.front.a{border-top:5px solid var(--aud)}.front.c{border-top:5px solid var(--com)}.front.m{border-top:5px solid var(--mkt)}
+.front.a .letter{background:var(--aud)}.front.c .letter{background:var(--com)}.front.m .letter{background:var(--mkt)}
+@media (max-width:900px){.fronts{grid-template-columns:1fr}}
+
+/* venn */
+.venn-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center}
+.venn svg{width:100%;max-width:500px;height:auto;display:block;margin:auto}
+.venn .zone{cursor:pointer;transition:opacity .2s}
+.venn .hot{cursor:pointer}
+.venn .hot circle{transition:r .15s}
+.venn .hot:hover circle.ring,.venn .hot.on circle.ring{stroke-width:4}
+.venn .hot:focus{outline:none}.venn .hot:focus-visible circle.ring{stroke:var(--ink);stroke-width:4}
+.inter-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.inter-tabs button{font:inherit;font-size:14px;font-weight:600;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);border-radius:999px;padding:7px 13px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.inter-tabs button[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.mini{display:inline-flex}.mini i{width:9px;height:9px;border-radius:50%;margin-right:-2px;border:1.5px solid var(--surface)}
+.detail{min-height:300px}
+.detail h3{font-size:22px}
+.detail .q{font-style:italic;color:var(--ink-2);border-left:3px solid var(--line);padding-left:12px;margin:10px 0 16px}
+.detail ul{padding-left:18px;margin:0}
+.detail li{margin:6px 0}
+.detail .ex{margin-top:16px;background:var(--surface-2);border-radius:12px;padding:14px 16px;font-size:14px}
+@media (max-width:900px){.venn-grid{grid-template-columns:1fr}}
+
+/* flow */
+.flow{display:grid;grid-template-columns:repeat(3,1fr);gap:0;position:relative}
+.step{background:var(--surface);border:1px solid var(--line);padding:24px;position:relative}
+section.alt .step{background:var(--bg)}
+.step:first-child{border-radius:16px 0 0 16px}.step:last-child{border-radius:0 16px 16px 0}
+.step+.step{border-left:none}
+.step .time{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:999px;background:var(--surface-2);color:var(--ink-2);margin-bottom:12px}
+.step .ic{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;margin-bottom:12px}
+.step ul{padding-left:18px;margin:10px 0 0;font-size:14px;color:var(--ink-2)}
+.step .arrow{position:absolute;right:-15px;top:46px;width:28px;height:28px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;z-index:2;font-weight:700}
+.timeline-bar{display:grid;grid-template-columns:2fr 1fr;margin-top:14px;font-size:13px;font-weight:700;text-align:center;border-radius:10px;overflow:hidden}
+.timeline-bar div{padding:9px}
+@media (max-width:900px){.flow{grid-template-columns:1fr}.step{border-radius:0!important;border-left:1px solid var(--line)!important}.step+.step{border-top:none}.step:first-child{border-radius:16px 16px 0 0!important}.step:last-child{border-radius:0 0 16px 16px!important}.step .arrow{right:auto;left:24px;top:auto;bottom:-15px;transform:rotate(90deg)}.timeline-bar{grid-template-columns:1fr}}
+
+/* team */
+.org{display:flex;flex-direction:column;align-items:center;gap:0}
+.lead-card{background:var(--dark);color:#fff;border-radius:16px;padding:18px 26px;text-align:center;box-shadow:var(--shadow);min-width:280px}
+.lead-card small{color:#aeb7c1;display:block;font-size:13px}
+.lead-card b{font-size:18px}
+.connector{width:2px;height:28px;background:var(--line)}
+.caps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;width:100%;position:relative}
+.caps:before{content:"";position:absolute;top:-14px;left:16.66%;right:16.66%;height:2px;background:var(--line)}
+.cap{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;position:relative;box-shadow:var(--shadow)}
+.cap:before{content:"";position:absolute;top:-15px;left:50%;width:2px;height:14px;background:var(--line)}
+.cap .time{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+.cap h3{margin-top:4px}
+.cap p{font-size:14px;color:var(--ink-2);margin:0 0 14px}
+.role{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
+.role .av{width:34px;height:34px;border-radius:50%;flex:none;display:grid;place-items:center;font-size:12px;font-weight:800;color:#fff;background:var(--ink-2)}
+.role b{display:block;font-size:14px}
+.role span{font-size:13px;color:var(--ink-2);display:block}
+.badge{display:inline-block;font-size:11px;font-weight:700;padding:2px 7px;border-radius:999px;margin-left:4px;vertical-align:1px;letter-spacing:.02em}
+.badge.hoy{background:var(--surface-2);color:var(--ink-2)}
+.badge.new{background:color-mix(in srgb,var(--new) 16%,transparent);color:var(--new)}
+.role span.fdots{display:flex;gap:3px;margin-top:5px}.fdots i{width:8px;height:8px;border-radius:50%;display:block}
+.role span.badge{display:inline-block;font-size:11px}
+@media (max-width:900px){.caps{grid-template-columns:1fr}.caps:before,.cap:before{display:none}.caps{gap:14px}}
+
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:30px 0 0}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.stat .v{font-size:30px;font-weight:800;letter-spacing:-.02em}
+.stat .l{font-size:13px;color:var(--ink-2)}
+@media (max-width:700px){.stats{grid-template-columns:1fr 1fr}}
+
+/* matrix */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:16px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:720px;font-size:14px}
+th,td{padding:14px 16px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+tr:last-child td{border-bottom:none}
+thead th{font-size:13px;letter-spacing:.04em;background:var(--surface-2)}
+thead th .bar{display:block;height:4px;border-radius:2px;margin-bottom:8px}
+tbody th{width:22%;font-size:14px}
+tbody th small{display:block;font-weight:400;color:var(--ink-3);margin-top:2px}
+td{color:var(--ink-2)}
+
+/* requests */
+.req{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;counter-reset:r}
+.req .card{padding:20px;position:relative}
+.req .card:before{counter-increment:r;content:counter(r);position:absolute;top:18px;right:18px;font-weight:800;font-size:28px;color:var(--line)}
+.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:20px}
+.tier{border-radius:14px;padding:18px;border:1px solid var(--line);background:var(--surface)}
+section.alt .tier{background:var(--bg)}
+.tier .sla{font-size:24px;font-weight:800;letter-spacing:-.02em}
+.tier p{font-size:14px;color:var(--ink-2);margin:6px 0 0}
+@media (max-width:900px){.req,.tiers{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.req,.tiers{grid-template-columns:1fr}}
+
+/* rituals + roadmap */
+.rituals{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.rit{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px}
+.rit .f{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--com-ink)}
+.rit h3{font-size:16px;margin:6px 0}
+.rit p{font-size:14px;color:var(--ink-2);margin:0}
+@media (max-width:900px){.rituals{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.rituals{grid-template-columns:1fr}}
+.road{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.phase{border-radius:16px;padding:22px;background:var(--bg);border:1px solid var(--line);position:relative;overflow:hidden}
+.phase:before{content:"";position:absolute;inset:0 0 auto 0;height:5px}
+.phase.p1:before{background:var(--aud)}.phase.p2:before{background:var(--com)}.phase.p3:before{background:var(--mkt)}
+.phase .when{font-size:13px;font-weight:700;color:var(--ink-3)}
+.phase ul{padding-left:18px;margin:10px 0 0;font-size:14px;color:var(--ink-2)}
+.phase li{margin:5px 0}
+@media (max-width:900px){.road{grid-template-columns:1fr}}
+
+footer{background:var(--dark);color:#aeb7c1;padding:40px 0;font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
+footer b{color:#fff}
+</style>
+</head>
+<body>
+
+<nav class="top" aria-label="Secciones">
+  <div class="wrap">
+    <a class="brand" href="#inicio"><span class="dots"><i style="background:var(--aud)"></i><i style="background:var(--com)"></i><i style="background:var(--mkt)"></i></span>Inteligencia de Negocios</a>
+    <div class="links">
+      <a href="#por-que">Por qué</a>
+      <a href="#frentes">Frentes</a>
+      <a href="#relacion">Relación</a>
+      <a href="#modelo">Modelo</a>
+      <a href="#equipo">Equipo</a>
+      <a href="#solicitudes">Solicitudes</a>
+      <a href="#hoja-de-ruta">Hoja de ruta</a>
+    </div>
+    <button id="themeBtn" aria-label="Cambiar tema" title="Cambiar tema">◐</button>
+  </div>
+</nav>
+
+<header class="hero" id="inicio">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">Prisa Media Colombia</div>
+      <h1>Una sola área.<br>Tres frentes.<br><span>Un mismo dato.</span></h1>
+      <p class="lead">Inteligencia de Negocios integra la analítica de <b>Audiencia</b>, la gestión <b>Comercial</b> y la lectura del <b>Market</b> publicitario en un equipo que comparte datos, criterios y prioridades para convertir información en monetización.</p>
+      <div class="chips">
+        <span class="chip"><i style="background:var(--aud)"></i>Audiencia</span>
+        <span class="chip"><i style="background:var(--com)"></i>Comercial</span>
+        <span class="chip"><i style="background:var(--mkt)"></i>Market</span>
+      </div>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <svg viewBox="0 0 400 380">
+        <g style="mix-blend-mode:screen">
+          <circle cx="200" cy="130" r="110" fill="#FD006E" opacity=".9"/>
+          <circle cx="140" cy="235" r="110" fill="#FFCB00" opacity=".9"/>
+          <circle cx="260" cy="235" r="110" fill="#0096DC" opacity=".9"/>
+        </g>
+        <circle cx="200" cy="200" r="44" fill="#1e2329"/>
+        <text x="200" y="207" text-anchor="middle" fill="#fff" font-family="Inter,sans-serif" font-weight="800" font-size="20">DATA</text>
+        <text x="200" y="88" text-anchor="middle" fill="#fff" font-family="Inter,sans-serif" font-weight="700" font-size="15">COMERCIAL</text>
+        <text x="112" y="280" text-anchor="middle" fill="#1e2329" font-family="Inter,sans-serif" font-weight="700" font-size="15">MARKET</text>
+        <text x="290" y="280" text-anchor="middle" fill="#fff" font-family="Inter,sans-serif" font-weight="700" font-size="15">AUDIENCIA</text>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<!-- POR QUÉ -->
+<section id="por-que">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Por qué existe el área</div>
+      <h2>De cinco fuentes desarticuladas a una cultura de decisión basada en datos</h2>
+    </div>
+    <div class="po">
+      <div class="card">
+        <div class="tag" style="color:var(--com-ink)">Problema</div>
+        <p class="big">Hoy existen 5 áreas que generan datos y trabajan de manera desarticulada, con diferentes criterios en el manejo de la información.</p>
+      </div>
+      <div class="card">
+        <div class="tag" style="color:var(--aud-ink)">Objetivo</div>
+        <p class="big">Consolidar una cultura de gestión de negocios y monetización a partir de la inteligencia de datos.</p>
+      </div>
+    </div>
+    <div class="goals">
+      <div class="goal"><span class="n">01</span><b>Optimizar</b>el procesamiento, diseño y análisis de los datos.</div>
+      <div class="goal"><span class="n">02</span><b>Fortalecer lo propio</b>canales y productos con recomendaciones estratégicas basadas en datos.</div>
+      <div class="goal"><span class="n">03</span><b>Venta directa</b>fortalecer nuestra oferta en el mercado.</div>
+      <div class="goal"><span class="n">04</span><b>Sinergia</b>de datos entre las distintas fuentes.</div>
+      <div class="goal"><span class="n">05</span><b>Articular</b>producto, comercial, desarrollo y financiero para decidir con datos.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FRENTES -->
+<section class="alt" id="frentes">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Los tres frentes</div>
+      <h2>Qué cubre cada frente</h2>
+      <p>No son tres equipos separados: son tres dominios de conocimiento sobre los que trabaja el mismo equipo, con un único modelo de datos y un único backlog.</p>
+    </div>
+    <div class="fronts">
+      <article class="front a">
+        <div class="hd">
+          <div class="letter">A</div>
+          <h3>Audiencia</h3>
+          <p>Conocimiento profundo de las audiencias de nuestros medios y evaluación de contenidos.</p>
+        </div>
+        <div class="bd">
+          <div><h4>Alcance</h4>
+            <div class="pills"><span class="pill">Audiencia de medios</span><span class="pill">Perfilamiento</span><span class="pill">First-party data</span><span class="pill">Comunidades</span><span class="pill">Informes y seguimiento</span></div></div>
+          <div><h4>Preguntas que responde</h4>
+            <ul><li>¿Quién nos lee, escucha y ve, en qué medio, plataforma y momento?</li><li>¿Qué segmentos y comunidades podemos ofrecer a las marcas?</li><li>¿Qué contenidos y formatos crecen o se desgastan?</li></ul></div>
+          <div><h4>Fuentes</h4>
+            <ul><li>Analítica web/app, streaming y podcast, redes sociales</li><li>PRISA ID y registros (first-party)</li><li>Mediciones de terceros (estudios de audiencia, IAB)</li></ul></div>
+        </div>
+      </article>
+      <article class="front c">
+        <div class="hd">
+          <div class="letter">C</div>
+          <h3>Comercial</h3>
+          <p>Evaluación y seguimiento constante del desempeño de la fuerza de ventas.</p>
+        </div>
+        <div class="bd">
+          <div><h4>Alcance</h4>
+            <div class="pills"><span class="pill">Gestión comercial</span><span class="pill">Presupuesto</span><span class="pill">Cumplimiento</span><span class="pill">Cartera</span><span class="pill">Seguimiento</span></div></div>
+          <div><h4>Preguntas que responde</h4>
+            <ul><li>¿Cómo vamos contra presupuesto por ejecutivo, medio, cliente y sector?</li><li>¿Qué propuestas están en curso y cuál es su probabilidad de cierre?</li><li>¿Qué cartera está en riesgo y qué clientes no han recomprado?</li></ul></div>
+          <div><h4>Fuentes</h4>
+            <ul><li>CRM y pipeline de propuestas</li><li>Facturación, órdenes y ad server</li><li>Sistemas financieros (presupuesto, cartera)</li></ul></div>
+        </div>
+      </article>
+      <article class="front m">
+        <div class="hd">
+          <div class="letter">M</div>
+          <h3>Market</h3>
+          <p>Panorama y tendencias del mercado publicitario y su entorno.</p>
+        </div>
+        <div class="bd">
+          <div><h4>Alcance</h4>
+            <div class="pills"><span class="pill">Mercado publicitario</span><span class="pill">Competencia</span><span class="pill">Pricing</span><span class="pill">Tendencias</span></div></div>
+          <div><h4>Preguntas que responde</h4>
+            <ul><li>¿Cuánto invierte el mercado, en qué sectores y medios, y qué participación tenemos?</li><li>¿A qué precio vende la competencia y dónde estamos nosotros?</li><li>¿Qué anunciantes y categorías están creciendo?</li></ul></div>
+          <div><h4>Fuentes</h4>
+            <ul><li>Monitoreo de inversión publicitaria</li><li>Cifras IAB y estudios sectoriales</li><li>Tarifarios y benchmark de competencia</li></ul></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- RELACIÓN -->
+<section id="relacion">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Cómo se relacionan</div>
+      <h2>El valor está en las intersecciones</h2>
+      <p>Cada frente aporta una mirada; cruzarlas es lo que genera oportunidades de negocio. Selecciona una intersección en el diagrama.</p>
+    </div>
+    <div class="venn-grid">
+      <div class="venn">
+        <svg viewBox="0 0 500 470" role="img" aria-label="Diagrama de intersecciones entre Audiencia, Comercial y Market">
+          <circle class="zone" cx="250" cy="165" r="135" fill="#FD006E" fill-opacity=".22" stroke="#FD006E" stroke-width="2.5"/>
+          <circle class="zone" cx="175" cy="295" r="135" fill="#FFCB00" fill-opacity=".26" stroke="#e0b200" stroke-width="2.5"/>
+          <circle class="zone" cx="325" cy="295" r="135" fill="#0096DC" fill-opacity=".22" stroke="#0096DC" stroke-width="2.5"/>
+          <text x="250" y="72" text-anchor="middle" font-weight="800" font-size="16" style="fill:var(--com-ink)">COMERCIAL</text>
+          <text x="110" y="385" text-anchor="middle" font-weight="800" font-size="16" style="fill:var(--mkt-ink)">MARKET</text>
+          <text x="390" y="385" text-anchor="middle" font-weight="800" font-size="16" style="fill:var(--aud-ink)">AUDIENCIA</text>
+
+          <g class="hot" data-k="CM" tabindex="0" role="button" aria-label="Comercial y Market">
+            <circle class="ring" cx="168" cy="200" r="24" style="fill:var(--surface)" stroke="#888" stroke-width="2"/>
+            <text x="168" y="206" text-anchor="middle" font-weight="800" font-size="15" style="fill:var(--ink)">C·M</text>
+          </g>
+          <g class="hot" data-k="AC" tabindex="0" role="button" aria-label="Audiencia y Comercial">
+            <circle class="ring" cx="332" cy="200" r="24" style="fill:var(--surface)" stroke="#888" stroke-width="2"/>
+            <text x="332" y="206" text-anchor="middle" font-weight="800" font-size="15" style="fill:var(--ink)">A·C</text>
+          </g>
+          <g class="hot" data-k="AM" tabindex="0" role="button" aria-label="Audiencia y Market">
+            <circle class="ring" cx="250" cy="355" r="24" style="fill:var(--surface)" stroke="#888" stroke-width="2"/>
+            <text x="250" y="361" text-anchor="middle" font-weight="800" font-size="15" style="fill:var(--ink)">A·M</text>
+          </g>
+          <g class="hot on" data-k="ACM" tabindex="0" role="button" aria-label="Centro: los tres frentes">
+            <circle class="ring" cx="250" cy="255" r="36" fill="#1e2329" stroke="#1e2329" stroke-width="2"/>
+            <text x="250" y="262" text-anchor="middle" font-weight="800" font-size="17" fill="#fff">DATA</text>
+          </g>
+        </svg>
+      </div>
+      <div>
+        <div class="inter-tabs" role="tablist">
+          <button role="tab" data-k="ACM" aria-selected="true"><span class="mini"><i style="background:#1e2329"></i></span>Centro</button>
+          <button role="tab" data-k="CM" aria-selected="false"><span class="mini"><i style="background:var(--com)"></i><i style="background:var(--mkt)"></i></span>Comercial + Market</button>
+          <button role="tab" data-k="AM" aria-selected="false"><span class="mini"><i style="background:var(--aud)"></i><i style="background:var(--mkt)"></i></span>Audiencia + Market</button>
+          <button role="tab" data-k="AC" aria-selected="false"><span class="mini"><i style="background:var(--aud)"></i><i style="background:var(--com)"></i></span>Audiencia + Comercial</button>
+        </div>
+        <div class="card detail" id="detail" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MODELO -->
+<section class="alt" id="modelo">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Modelo operativo</div>
+      <h2>Un flujo de datos, del pasado al futuro</h2>
+      <p>Los tres frentes pasan por la misma cadena de valor. Lo que cambia es la pregunta de negocio; la plataforma, los criterios y la calidad del dato son comunes.</p>
+    </div>
+    <div class="flow">
+      <div class="step">
+        <div class="ic" style="background:var(--mkt-soft);color:var(--mkt-ink)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v6c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 11v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg></div>
+        <span class="time">Base</span>
+        <h3>Arquitectura e ingeniería de datos</h3>
+        <p class="muted small">Captura, extracción y automatización.</p>
+        <ul><li>Banco de datos único (nube)</li><li>Procesamiento y limpieza</li><li>Integración de fuentes A, C y M</li><li>Control de calidad y gobierno del dato</li></ul>
+        <span class="arrow">›</span>
+      </div>
+      <div class="step">
+        <div class="ic" style="background:var(--com-soft);color:var(--com-ink)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M7 14v-3M11 14V8M15 14v-5M8 21h8"/></svg></div>
+        <span class="time">Pasado / presente</span>
+        <h3>BI, informes y análisis</h3>
+        <p class="muted small">Analítica descriptiva y presentación de datos.</p>
+        <ul><li>Informes periódicos y dashboards</li><li>Mediakit y fichas de medios</li><li>Alcance, frecuencia y cierres de campaña</li><li>Alertas y consultas de ejecutivos</li></ul>
+        <span class="arrow">›</span>
+      </div>
+      <div class="step">
+        <div class="ic" style="background:var(--aud-soft);color:var(--aud-ink)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></div>
+        <span class="time">Futuro</span>
+        <h3>Ciencia de datos</h3>
+        <p class="muted small">Analítica predictiva e inteligencia de datos.</p>
+        <ul><li>Proyecciones y modelos predictivos</li><li>Generación de insights</li><li>Oportunidades para marcas y tendencias</li><li>Afinidad audiencia–anunciante</li></ul>
+      </div>
+    </div>
+    <div class="timeline-bar">
+      <div style="background:var(--surface-2);color:var(--ink-2)">Analítica descriptiva · ¿qué pasó y qué está pasando?</div>
+      <div style="background:var(--ink);color:var(--bg)">Analítica predictiva · ¿qué va a pasar?</div>
+    </div>
+    <p class="muted small" style="margin-top:18px">Metodología de trabajo: <b>CRISP-DM</b> — comprensión del negocio → comprensión de los datos → preparación → modelado → evaluación → implementación. Sin ingeniería ni ciencia de datos, el ciclo se queda en "negocio → implementación" y pierde la capa de preparación y modelado.</p>
+  </div>
+</section>
+
+<!-- EQUIPO -->
+<section id="equipo">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Equipo</div>
+      <h2>Organizado por capacidades, no por silos</h2>
+      <p>Partimos del equipo actual. Cada persona pertenece a una capacidad y tiene un frente de referencia (los puntos de color), pero todos trabajan sobre el mismo backlog y se reasignan según la prioridad del negocio.</p>
+    </div>
+
+    <div class="org">
+      <div class="lead-card"><small>Líder del área</small><b>Director(a) de Inteligencia de Negocios</b><br><small style="margin-top:4px">Prioriza el backlog · gobierno del dato · enlace con Comercial, Producto, Desarrollo y Financiero</small></div>
+      <div class="connector"></div>
+      <div class="caps">
+        <div class="cap" style="border-top:5px solid var(--mkt)">
+          <div class="time">Base · plataforma</div>
+          <h3>Arquitectura e Ingeniería de Datos</h3>
+          <p>Construye y mantiene el banco de datos único, los pipelines y la calidad del dato que usa toda el área.</p>
+          <div class="role"><span class="av" style="background:#c79f00">AD</span><div><b>Arquitecto(a) de datos <span class="badge hoy">Hoy: experto BD</span></b><span>Modelo de datos, nube, gobierno y seguridad</span><span class="fdots"><i style="background:var(--aud)"></i><i style="background:var(--com)"></i><i style="background:var(--mkt)"></i></span></div></div>
+          <div class="role"><span class="av" style="background:#c79f00">ID</span><div><b>Ingeniero(a) de datos <span class="badge hoy">Hoy: experto BD</span></b><span>Pipelines ETL/ELT, automatización e integraciones</span><span class="fdots"><i style="background:var(--aud)"></i><i style="background:var(--com)"></i><i style="background:var(--mkt)"></i></span></div></div>
+        </div>
+        <div class="cap" style="border-top:5px solid var(--com)">
+          <div class="time">Pasado / presente</div>
+          <h3>BI, Informes y Análisis</h3>
+          <p>Dashboards, informes periódicos, análisis descriptivo y atención de solicitudes de los ejecutivos (alcance, frecuencia, cierres, propuestas).</p>
+          <div class="role"><span class="av" style="background:var(--aud)">JA</span><div><b>Jefe(a) de Audiencias y First-party <span class="badge hoy">Hoy: PRISA ID</span></b><span>Perfilamiento, comunidades, PRISA ID</span><span class="fdots"><i style="background:var(--aud)"></i></span></div></div>
+          <div class="role"><span class="av" style="background:var(--com)">AS</span><div><b>Analista Sr · Comercial <span class="badge hoy">Hoy</span></b><span>Presupuesto, cumplimiento, cartera, pipeline</span><span class="fdots"><i style="background:var(--com)"></i></span></div></div>
+          <div class="role"><span class="av" style="background:var(--aud)">AS</span><div><b>Analista Sr · Audiencia y Market <span class="badge hoy">Hoy</span></b><span>Medición de medios, competencia y pricing</span><span class="fdots"><i style="background:var(--aud)"></i><i style="background:var(--mkt)"></i></span></div></div>
+          <div class="role"><span class="av" style="background:#7b8692">AJ</span><div><b>Analistas Jr (2) · Mesa de solicitudes <span class="badge hoy">Hoy</span></b><span>Alcance y frecuencia, informes de cierre, mediakit</span><span class="fdots"><i style="background:var(--aud)"></i><i style="background:var(--com)"></i><i style="background:var(--mkt)"></i></span></div></div>
+        </div>
+        <div class="cap" style="border-top:5px solid var(--aud)">
+          <div class="time">Futuro</div>
+          <h3>Ciencia de Datos</h3>
+          <p>Modelos predictivos, tendencias y oportunidades para las marcas: qué audiencia, qué anunciante, qué precio y cuándo.</p>
+          <div class="role"><span class="av" style="background:var(--new)">CD</span><div><b>Científico(a) de datos Sr <span class="badge new">Nuevo</span></b><span>Proyecciones de ingresos, propensión de recompra, pricing</span><span class="fdots"><i style="background:var(--com)"></i><i style="background:var(--mkt)"></i></span></div></div>
+          <div class="role"><span class="av" style="background:var(--new)">CD</span><div><b>Científico(a) de datos <span class="badge new">Nuevo</span></b><span>Segmentación, afinidad audiencia–marca, tendencias</span><span class="fdots"><i style="background:var(--aud)"></i><i style="background:var(--mkt)"></i></span></div></div>
+          <p class="small" style="margin:12px 0 0;color:var(--ink-3)">Transición: mientras se incorporan, un Analista Sr asume casos piloto de modelado con apoyo de Ingeniería.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="v">8</div><div class="l">Personas hoy</div></div>
+      <div class="stat"><div class="v">+2</div><div class="l">Científicos de datos a incorporar</div></div>
+      <div class="stat"><div class="v">10</div><div class="l">Equipo objetivo</div></div>
+      <div class="stat"><div class="v">1</div><div class="l">Backlog, banco de datos y líder</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- MATRIZ -->
+<section class="alt" id="matriz">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Cómo funciona integrado</div>
+      <h2>Capacidades × frentes</h2>
+      <p>Cada capacidad entrega valor a los tres frentes. Así se ve el trabajo cuando el área opera como una sola.</p>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr>
+          <th></th>
+          <th><span class="bar" style="background:var(--aud)"></span>Audiencia</th>
+          <th><span class="bar" style="background:var(--com)"></span>Comercial</th>
+          <th><span class="bar" style="background:var(--mkt)"></span>Market</th>
+        </tr></thead>
+        <tbody>
+          <tr><th>Arquitectura e Ingeniería<small>Base</small></th>
+            <td>Integración de analítica digital, streaming, redes y PRISA ID en un perfil unificado.</td>
+            <td>Conexión de CRM, facturación, presupuesto y cartera; actualización automática diaria.</td>
+            <td>Ingesta de monitoreo de inversión, cifras IAB y tarifarios de competencia.</td></tr>
+          <tr><th>BI, Informes y Análisis<small>Pasado / presente</small></th>
+            <td>Tablero de audiencias por medio y plataforma; informes de comunidades y contenidos.</td>
+            <td>Tablero de cumplimiento vs. presupuesto, pipeline, cartera; informes de cierre y recompra.</td>
+            <td>Participación de mercado, monitoreo de anunciantes y sectores, benchmark de precios.</td></tr>
+          <tr><th>Ciencia de Datos<small>Futuro</small></th>
+            <td>Segmentos de afinidad y propensión; predicción de audiencia por contenido.</td>
+            <td>Proyección de cierre de mes, riesgo de cartera, próxima mejor oferta por cliente.</td>
+            <td>Detección temprana de categorías en crecimiento; pricing dinámico recomendado.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- SOLICITUDES -->
+<section id="solicitudes">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Atención a ejecutivos</div>
+      <h2>Una sola puerta de entrada para las solicitudes</h2>
+      <p>Alcance, frecuencia, informes de cierre, datos para propuestas: todo entra por un mismo canal y se prioriza en un único backlog.</p>
+    </div>
+    <div class="req">
+      <div class="card"><h3>Solicitud</h3><p class="muted small">El ejecutivo registra el pedido en el formulario único: cliente, objetivo, fecha y tipo.</p></div>
+      <div class="card"><h3>Triage</h3><p class="muted small">La mesa de solicitudes clasifica por nivel y frente, y asigna responsable.</p></div>
+      <div class="card"><h3>Entrega</h3><p class="muted small">Se responde con datos de la fuente única; si es repetitivo, se convierte en dashboard autoservicio.</p></div>
+      <div class="card"><h3>Aprendizaje</h3><p class="muted small">Casos de éxito, buenas prácticas y resultados de cierre alimentan los modelos.</p></div>
+    </div>
+    <div class="tiers">
+      <div class="tier"><div class="sla" style="color:var(--aud-ink)">24 h</div><b>Nivel 1 · Consulta</b><p>Alcance y frecuencia estándar, cifras de audiencia, mediakit, datos puntuales.</p></div>
+      <div class="tier"><div class="sla" style="color:var(--com-ink)">3 días</div><b>Nivel 2 · Informe</b><p>Informe de cierre de campaña, propuesta con datos de afinidad, análisis de cliente.</p></div>
+      <div class="tier"><div class="sla" style="color:var(--mkt-ink)">2 semanas</div><b>Nivel 3 · Proyecto</b><p>Estudio de mercado, nuevo dashboard, modelo predictivo o segmentación a medida.</p></div>
+    </div>
+    <p class="muted small" style="margin-top:14px">Los tiempos son una propuesta inicial para acordar con la Dirección Comercial.</p>
+  </div>
+</section>
+
+<!-- RITUALES -->
+<section class="alt" id="rituales">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Ritmo de trabajo</div>
+      <h2>Rituales que mantienen al área integrada</h2>
+    </div>
+    <div class="rituals">
+      <div class="rit"><div class="f">Diario</div><h3>Alertas comerciales</h3><p>Cumplimiento del día, desvíos y oportunidades enviadas a la fuerza de ventas.</p></div>
+      <div class="rit"><div class="f">Semanal</div><h3>Comité de backlog</h3><p>Todo el equipo prioriza solicitudes y proyectos de los tres frentes juntos.</p></div>
+      <div class="rit"><div class="f">Mensual</div><h3>Informe integrado</h3><p>Audiencia + Comercial + Market en un solo documento para la dirección.</p></div>
+      <div class="rit"><div class="f">Trimestral</div><h3>Insights y tendencias</h3><p>Ciencia de Datos presenta oportunidades para marcas y recomendaciones de producto.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- HOJA DE RUTA -->
+<section id="hoja-de-ruta">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Hoja de ruta</div>
+      <h2>Implementación en tres fases</h2>
+    </div>
+    <div class="road">
+      <div class="phase p1"><div class="when">Meses 0–3</div><h3>Ordenar la casa</h3>
+        <ul><li>Inventario de las 5 fuentes y criterios únicos (diccionario de datos)</li><li>Banco de datos en la nube con las primeras integraciones</li><li>Mesa única de solicitudes y backlog</li></ul></div>
+      <div class="phase p2"><div class="when">Meses 3–6</div><h3>Ver el negocio completo</h3>
+        <ul><li>Dashboards de Audiencia, Comercial y Market sobre la misma fuente</li><li>Alertas comerciales automáticas</li><li>Incorporación de científicos de datos</li></ul></div>
+      <div class="phase p3"><div class="when">Meses 6–12</div><h3>Anticipar</h3>
+        <ul><li>Modelos de proyección de ingresos y recompra</li><li>Segmentos first-party de afinidad para venta directa</li><li>Recomendaciones de pricing y oportunidades por marca</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div><b>Inteligencia de Negocios</b> · Prisa Media Colombia</div>
+    <div>Audiencia · Comercial · Market — una sola área</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var root=document.documentElement, btn=document.getElementById('themeBtn');
+  try{var t=localStorage.getItem('in-theme'); if(t) root.setAttribute('data-theme',t);}catch(e){}
+  btn.addEventListener('click',function(){
+    var cur=root.getAttribute('data-theme') || (matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
+    var nx=cur==='dark'?'light':'dark'; root.setAttribute('data-theme',nx);
+    try{localStorage.setItem('in-theme',nx);}catch(e){}
+  });
+
+  var D={
+    ACM:{t:'Centro · DATA',c:'#1e2329',q:'¿Qué audiencia, para qué anunciante, a qué precio y en qué momento?',
+      l:['Banco de datos único y un mismo criterio para las tres miradas','Informe integrado mensual para la dirección','Oportunidades de negocio priorizadas para venta directa','Recomendaciones para producto y contenidos basadas en monetización'],
+      ex:'Ejemplo: una categoría crece en el mercado (M), tenemos una comunidad afín en PRISA ID (A) y hay clientes de ese sector sin recompra (C) → oportunidad con propuesta, audiencia y precio sugerido.'},
+    CM:{t:'Comercial + Market',c:'#FD006E',q:'¿Dónde está el dinero del mercado que todavía no estamos capturando?',
+      l:['Generar alertas comerciales','Detectar oportunidades de mercado','Evaluar participación de mercado (share of wallet)','Monitoreo de anunciantes, sectores y categorías'],
+      ex:'Ejemplo: un anunciante aumentó su inversión en radio un 30% y nuestra participación cayó → alerta al ejecutivo con datos de contexto.'},
+    AM:{t:'Audiencia + Market',c:'#FFCB00',q:'¿Qué valor tiene nuestra audiencia frente a la competencia?',
+      l:['Ejercicios de benchmarking y pricing','Afinidad entre nuestras audiencias y los anunciantes','Prospección de clientes','Entendimiento de los públicos y de las estrategias de las marcas'],
+      ex:'Ejemplo: nuestra audiencia 25–34 en podcast es mayor que la de la competencia a menor costo → argumento de precio para la oferta.'},
+    AC:{t:'Audiencia + Comercial',c:'#0096DC',q:'¿Qué contenidos y formatos generan ingresos y cuáles no?',
+      l:['Seguimiento a la monetización','Evaluar comercialmente formatos y contenidos','Casos de éxito y buenas prácticas','Seguimiento a propuestas comerciales','Informes de cierre y recompra (alcance y frecuencia)'],
+      ex:'Ejemplo: el informe de cierre muestra alcance y frecuencia logrados vs. prometidos y alimenta la propuesta de recompra.'}
+  };
+  var det=document.getElementById('detail');
+  function show(k){
+    var d=D[k];
+    det.innerHTML='<div style="width:40px;height:6px;border-radius:3px;background:'+d.c+';margin-bottom:12px"></div><h3>'+d.t+'</h3><p class="q">'+d.q+'</p><ul>'+d.l.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul><div class="ex">'+d.ex+'</div>';
+    document.querySelectorAll('.inter-tabs button').forEach(function(b){b.setAttribute('aria-selected',b.dataset.k===k?'true':'false');});
+    document.querySelectorAll('.venn .hot').forEach(function(g){g.classList.toggle('on',g.dataset.k===k);});
+  }
+  document.querySelectorAll('.inter-tabs button').forEach(function(b){b.addEventListener('click',function(){show(b.dataset.k);});});
+  document.querySelectorAll('.venn .hot').forEach(function(g){
+    g.addEventListener('click',function(){show(g.dataset.k);});
+    g.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();show(g.dataset.k);}});
+  });
+  show('ACM');
+})();
+</script>
+</body>
+</html>
