@@ -4,345 +4,392 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Inteligencia de Negocios</title>
-<meta name="description" content="Modelo integrado de Inteligencia de Negocios de Prisa Media Colombia: Audiencia, Comercial y Market en una sola área.">
+<meta name="description" content="Inteligencia de Negocios Prisa Media Colombia: Audiencia, Comercial y Market en una sola área integrada.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#f6f7f9; --surface:#ffffff; --surface-2:#eef1f4; --ink:#1d2228; --ink-2:#4a5561; --ink-3:#7b8692;
-  --line:#dde2e8; --dark:#1e2329;
-  --aud:#0096DC; --aud-soft:#e3f3fb; --aud-ink:#006a9c;
-  --com:#FD006E; --com-soft:#ffe6f1; --com-ink:#c00053;
-  --mkt:#FFCB00; --mkt-soft:#fff6d6; --mkt-ink:#8a6d00;
-  --new:#18a058;
-  --shadow:0 1px 2px rgba(20,30,40,.06),0 6px 20px rgba(20,30,40,.06);
-  color-scheme:light;
-}
-@media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){
-    --bg:#121518; --surface:#1a1e23; --surface-2:#232830; --ink:#eef1f4; --ink-2:#b4bdc7; --ink-3:#8692a0;
-    --line:#2d343c; --dark:#0b0d10;
-    --aud-soft:#0d2c3c; --aud-ink:#5cc3f2; --com-soft:#3a1023; --com-ink:#ff5fa3; --mkt-soft:#3a3006; --mkt-ink:#ffd94d;
-    --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.25); color-scheme:dark;
-  }
-}
-:root[data-theme="dark"]{
-  --bg:#121518; --surface:#1a1e23; --surface-2:#232830; --ink:#eef1f4; --ink-2:#b4bdc7; --ink-3:#8692a0;
-  --line:#2d343c; --dark:#0b0d10;
-  --aud-soft:#0d2c3c; --aud-ink:#5cc3f2; --com-soft:#3a1023; --com-ink:#ff5fa3; --mkt-soft:#3a3006; --mkt-ink:#ffd94d;
-  --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.25); color-scheme:dark;
+  --bg:#0a0c10; --bg-2:#10141a; --card:#141920; --card-2:#1b222b; --line:rgba(255,255,255,.09);
+  --ink:#f4f6f8; --ink-2:#aeb8c3; --ink-3:#6f7b88;
+  --aud:#0096DC; --com:#FD006E; --mkt:#FFCB00; --new:#2fd27a;
+  --ease:cubic-bezier(.2,.8,.2,1);
+  color-scheme:dark;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 a{color:inherit}
-.wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px;position:relative}
 @media (max-width:600px){.wrap{padding:0 16px}}
+.grad{background:linear-gradient(90deg,var(--aud),var(--com) 50%,var(--mkt));-webkit-background-clip:text;background-clip:text;color:transparent;background-size:200% 100%;animation:shift 6s linear infinite}
+@keyframes shift{to{background-position:200% 0}}
+
+/* progress + cursor glow */
+#progress{position:fixed;top:0;left:0;height:3px;width:100%;transform-origin:0 50%;transform:scaleX(0);z-index:60;background:linear-gradient(90deg,var(--aud),var(--com),var(--mkt))}
+#glow{position:fixed;width:520px;height:520px;border-radius:50%;pointer-events:none;z-index:0;left:0;top:0;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(253,0,110,.10),rgba(0,150,220,.06) 40%,transparent 70%);transition:opacity .4s}
 
 /* nav */
-nav.top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-nav.top .wrap{display:flex;align-items:center;gap:20px;height:58px}
-.brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.01em;text-decoration:none;white-space:nowrap}
-.dots{display:inline-flex;gap:3px}.dots i{width:9px;height:9px;border-radius:50%;display:block}
-.links{display:flex;gap:18px;margin-left:auto;font-size:14px;color:var(--ink-2);overflow-x:auto;scrollbar-width:none}
-.links a{text-decoration:none;white-space:nowrap}.links a:hover{color:var(--ink)}
-#themeBtn{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:8px;width:34px;height:34px;cursor:pointer;flex:none}
-@media (max-width:820px){.links{display:none}#themeBtn{margin-left:auto}}
+nav.top{position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:50;width:min(1120px,calc(100% - 24px));display:flex;align-items:center;gap:18px;padding:10px 12px 10px 18px;border-radius:16px;background:rgba(16,20,26,.62);backdrop-filter:blur(14px);border:1px solid var(--line);transition:transform .5s var(--ease)}
+nav.top.hide{transform:translate(-50%,-140%)}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;text-decoration:none;white-space:nowrap}
+.dots{display:inline-flex;gap:4px}.dots i{width:9px;height:9px;border-radius:50%;display:block;animation:bob 2.4s var(--ease) infinite}
+.dots i:nth-child(2){animation-delay:.2s}.dots i:nth-child(3){animation-delay:.4s}
+@keyframes bob{50%{transform:translateY(-4px)}}
+.links{display:flex;gap:4px;margin-left:auto;font-size:14px}
+.links a{text-decoration:none;color:var(--ink-2);padding:7px 11px;border-radius:9px;transition:.25s}
+.links a:hover,.links a.on{color:var(--ink);background:rgba(255,255,255,.07)}
+@media (max-width:860px){.links{display:none}}
 
 /* hero */
-.hero{background:var(--dark);color:#fff;overflow:hidden;position:relative}
-.hero .wrap{padding-top:72px;padding-bottom:72px;display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center}
-.eyebrow{font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--mkt)}
-.hero h1{font-size:clamp(34px,5.4vw,60px);line-height:1.04;letter-spacing:-.03em;margin:14px 0 18px;font-weight:800}
-.hero h1 span{color:var(--mkt)}
-.hero p.lead{font-size:19px;color:#c9d1d9;max-width:560px;margin:0 0 28px}
-.chips{display:flex;flex-wrap:wrap;gap:10px}
-.chip{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;font-weight:600;font-size:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14)}
-.chip i{width:10px;height:10px;border-radius:50%}
-.hero-art svg{width:100%;height:auto;max-width:420px;display:block;margin:auto}
-@media (max-width:820px){.hero .wrap{grid-template-columns:1fr;padding-top:48px;padding-bottom:48px}.hero-art{order:-1}.hero-art svg{max-width:260px}}
+.hero{min-height:100vh;min-height:100svh;display:flex;align-items:center;position:relative;overflow:hidden}
+#net{position:absolute;inset:0;width:100%;height:100%}
+.hero:after{content:"";position:absolute;inset:auto 0 0 0;height:200px;background:linear-gradient(transparent,var(--bg))}
+.blob{position:absolute;border-radius:50%;filter:blur(90px);opacity:.38;animation:float 14s ease-in-out infinite}
+.b1{width:520px;height:520px;background:var(--com);top:-140px;right:-80px}
+.b2{width:460px;height:460px;background:var(--aud);bottom:-160px;right:22%;animation-delay:-5s}
+.b3{width:380px;height:380px;background:var(--mkt);top:30%;left:-160px;opacity:.22;animation-delay:-9s}
+@keyframes float{33%{transform:translate(40px,-30px) scale(1.08)}66%{transform:translate(-30px,25px) scale(.95)}}
+.hero .wrap{z-index:2;padding-top:120px;padding-bottom:90px;width:100%}
+.kicker{display:inline-flex;align-items:center;gap:10px;font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);padding:7px 14px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.03)}
+.kicker .pulse{width:8px;height:8px;border-radius:50%;background:var(--new);box-shadow:0 0 0 0 rgba(47,210,122,.7);animation:pulse 1.8s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 12px rgba(47,210,122,0)}100%{box-shadow:0 0 0 0 rgba(47,210,122,0)}}
+.hero h1{font-size:clamp(44px,8.6vw,118px);line-height:.95;letter-spacing:-.045em;font-weight:900;margin:26px 0 26px}
+.hero h1 .ln{display:block;overflow:hidden;padding-bottom:.06em}
+.hero h1 .ln>span{display:inline-block;transform:translateY(110%);animation:up 1s var(--ease) forwards}
+.hero h1 .ln:nth-child(2)>span{animation-delay:.12s}.hero h1 .ln:nth-child(3)>span{animation-delay:.24s}
+@keyframes up{to{transform:none}}
+.rot{display:inline-grid;vertical-align:bottom}
+.rot b{grid-area:1/1;opacity:0;transform:translateY(60%) rotateX(-70deg);transition:.7s var(--ease);font-weight:900}
+.rot b.on{opacity:1;transform:none}
+.rot b.out{opacity:0;transform:translateY(-60%) rotateX(70deg)}
+.hero p.lead{font-size:clamp(17px,1.6vw,21px);color:var(--ink-2);max-width:620px;margin:0 0 34px;opacity:0;animation:fade 1s .6s forwards}
+@keyframes fade{to{opacity:1}}
+.cta{display:flex;gap:12px;flex-wrap:wrap;opacity:0;animation:fade 1s .8s forwards}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 22px;border-radius:12px;font-weight:700;text-decoration:none;transition:transform .25s var(--ease),box-shadow .25s}
+.btn.primary{background:var(--ink);color:#0a0c10}
+.btn.primary:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(253,0,110,.35)}
+.btn.ghost{border:1px solid var(--line);color:var(--ink)}
+.btn.ghost:hover{background:rgba(255,255,255,.06)}
+.scrollcue{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);z-index:3;width:26px;height:42px;border:2px solid var(--ink-3);border-radius:14px}
+.scrollcue:after{content:"";position:absolute;left:50%;top:8px;width:4px;height:8px;margin-left:-2px;border-radius:2px;background:var(--ink-2);animation:cue 1.6s infinite}
+@keyframes cue{to{transform:translateY(14px);opacity:0}}
+
+/* marquee */
+.marquee{border-block:1px solid var(--line);overflow:hidden;background:var(--bg-2);position:relative;z-index:2}
+.marquee .track{display:flex;width:max-content;animation:mq 40s linear infinite}
+.marquee span{font-size:clamp(20px,2.6vw,32px);font-weight:800;letter-spacing:-.02em;padding:20px 26px;white-space:nowrap;color:var(--ink-3);display:flex;align-items:center;gap:26px}
+.marquee span:after{content:"";width:10px;height:10px;border-radius:50%;background:var(--c,var(--com))}
+@keyframes mq{to{transform:translateX(-50%)}}
 
 /* sections */
-section{padding:72px 0}
-section.alt{background:var(--surface)}
-.sec-head{max-width:760px;margin-bottom:36px}
-.sec-head .eyebrow{color:var(--com)}
-h2{font-size:clamp(26px,3.4vw,38px);letter-spacing:-.02em;line-height:1.12;margin:10px 0 12px}
-.sec-head p{color:var(--ink-2);font-size:17px;margin:0}
-h3{font-size:19px;margin:0 0 8px;letter-spacing:-.01em}
-.muted{color:var(--ink-2)}
-.small{font-size:14px}
+section{padding:120px 0;position:relative;z-index:1}
+.eyebrow{font-size:13px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--com);display:flex;align-items:center;gap:10px}
+.eyebrow:before{content:"";width:26px;height:2px;background:currentColor}
+h2{font-size:clamp(32px,4.8vw,62px);line-height:1.02;letter-spacing:-.035em;margin:16px 0 18px;font-weight:900}
+.sec-head{max-width:820px;margin-bottom:56px}
+.sec-head p{color:var(--ink-2);font-size:18px;margin:0}
+h3{font-size:21px;margin:0 0 8px;letter-spacing:-.015em}
 
-/* problem/objective */
-.po{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:24px;box-shadow:var(--shadow)}
-section.alt .card{background:var(--bg)}
-.po .card .tag{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
-.po .big{font-size:22px;font-weight:700;line-height:1.3;margin:10px 0 0;letter-spacing:-.01em}
-.goals{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:20px}
-.goal{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;font-size:14px;color:var(--ink-2)}
-.goal b{display:block;color:var(--ink);font-size:15px;margin-bottom:4px}
-.goal .n{font-weight:800;font-size:13px;color:var(--ink-3)}
-@media (max-width:900px){.po{grid-template-columns:1fr}.goals{grid-template-columns:1fr 1fr}}
+/* reveal */
+.rv{opacity:0;transform:translateY(40px);filter:blur(6px);transition:opacity .9s var(--ease),transform .9s var(--ease),filter .9s var(--ease);transition-delay:var(--d,0s)}
+.rv.in{opacity:1;transform:none;filter:none}
+.rv-l{transform:translateX(-50px)}.rv-r{transform:translateX(50px)}.rv-s{transform:scale(.9)}
+
+/* cards */
+.card{background:linear-gradient(180deg,var(--card),var(--bg-2));border:1px solid var(--line);border-radius:20px;padding:28px;position:relative;overflow:hidden;transform-style:preserve-3d;transition:border-color .3s,box-shadow .3s}
+.card:before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(400px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.08),transparent 45%);opacity:0;transition:opacity .3s}
+.card:hover:before{opacity:1}
+.card:hover{border-color:rgba(255,255,255,.18)}
+.tilt{transition:transform .25s var(--ease),border-color .3s}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.stat .v{font-size:clamp(44px,5vw,68px);font-weight:900;letter-spacing:-.04em;line-height:1}
+.stat .l{color:var(--ink-2);font-size:14px;margin-top:8px}
+.stat .bar{height:4px;border-radius:2px;margin-top:18px;background:rgba(255,255,255,.07);overflow:hidden}
+.stat .bar i{display:block;height:100%;width:0;transition:width 1.6s var(--ease) .2s}
+.stat.in .bar i{width:var(--w)}
+@media (max-width:820px){.stats{grid-template-columns:1fr 1fr}}
+
+.po{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
+.po .big{font-size:clamp(20px,2.2vw,27px);font-weight:800;line-height:1.25;letter-spacing:-.02em;margin:12px 0 0}
+.tag{font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+.strike{position:relative;display:inline}
+.goals{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:18px}
+.goal{padding:20px}
+.goal .n{font-size:34px;font-weight:900;letter-spacing:-.04em;line-height:1;display:block;margin-bottom:10px}
+.goal b{display:block;font-size:15px}.goal span{font-size:14px;color:var(--ink-2)}
+@media (max-width:960px){.po{grid-template-columns:1fr}.goals{grid-template-columns:1fr 1fr}}
 @media (max-width:520px){.goals{grid-template-columns:1fr}}
 
 /* fronts */
-.fronts{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.front{border-radius:18px;background:var(--surface);border:1px solid var(--line);overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--shadow)}
-.front .hd{padding:22px 22px 18px;position:relative}
-.front .letter{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-weight:800;font-size:20px;color:#fff;margin-bottom:12px}
-.front.m .letter{color:#1d2228}
-.front .hd h3{font-size:22px}
-.front .hd p{margin:0;color:var(--ink-2);font-size:15px}
-.front .bd{padding:0 22px 22px;display:flex;flex-direction:column;gap:16px;flex:1}
-.front h4{font-size:12px;letter-spacing:.1em;text-transform:uppercase;margin:0 0 8px;color:var(--ink-3)}
-.pills{display:flex;flex-wrap:wrap;gap:6px}
-.pill{font-size:13px;padding:5px 10px;border-radius:999px;font-weight:600}
-.front.a .pill{background:var(--aud-soft);color:var(--aud-ink)}
-.front.c .pill{background:var(--com-soft);color:var(--com-ink)}
-.front.m .pill{background:var(--mkt-soft);color:var(--mkt-ink)}
+.fronts{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.front{padding:0;display:flex;flex-direction:column}
+.front .hd{padding:30px 28px 22px;position:relative}
+.front .big-l{position:absolute;right:-10px;top:-30px;font-size:180px;font-weight:900;line-height:1;color:var(--c);opacity:.10;transition:transform .6s var(--ease),opacity .4s}
+.front:hover .big-l{transform:translate(-14px,10px) rotate(-6deg);opacity:.2}
+.front .ico{width:54px;height:54px;border-radius:16px;display:grid;place-items:center;background:var(--c);color:#0a0c10;margin-bottom:18px;box-shadow:0 10px 30px -8px var(--c)}
+.front .hd h3{font-size:28px}
+.front .hd p{margin:0;color:var(--ink-2)}
+.front .bd{padding:0 28px 28px;display:flex;flex-direction:column;gap:18px;flex:1}
+.front h4{font-size:11px;letter-spacing:.14em;text-transform:uppercase;margin:0 0 10px;color:var(--ink-3)}
+.pills{display:flex;flex-wrap:wrap;gap:7px}
+.pill{font-size:13px;padding:6px 11px;border-radius:999px;font-weight:600;border:1px solid color-mix(in srgb,var(--c) 45%,transparent);color:color-mix(in srgb,var(--c) 75%,#fff);background:color-mix(in srgb,var(--c) 10%,transparent);transition:.25s}
+.pill:hover{background:var(--c);color:#0a0c10}
 .front ul{margin:0;padding-left:18px;font-size:14px;color:var(--ink-2)}
-.front ul li{margin:3px 0}
-.front.a{border-top:5px solid var(--aud)}.front.c{border-top:5px solid var(--com)}.front.m{border-top:5px solid var(--mkt)}
-.front.a .letter{background:var(--aud)}.front.c .letter{background:var(--com)}.front.m .letter{background:var(--mkt)}
-@media (max-width:900px){.fronts{grid-template-columns:1fr}}
+.front ul li{margin:4px 0}
+.front .topbar{height:4px;background:var(--c);transform:scaleX(0);transform-origin:0;transition:transform 1.2s var(--ease) .3s}
+.front.in .topbar{transform:none}
+@media (max-width:960px){.fronts{grid-template-columns:1fr}}
 
 /* venn */
-.venn-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center}
-.venn svg{width:100%;max-width:500px;height:auto;display:block;margin:auto}
-.venn .zone{cursor:pointer;transition:opacity .2s}
+.venn-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center}
+.venn svg{width:100%;max-width:540px;height:auto;display:block;margin:auto;overflow:visible}
+.venn .orb{transform-box:fill-box;transform-origin:center;animation:breathe 6s ease-in-out infinite}
+.venn .orb.o2{animation-delay:-2s}.venn .orb.o3{animation-delay:-4s}
+@keyframes breathe{50%{transform:scale(1.04)}}
+.venn .spin{transform-origin:270px 255px;animation:spin 40s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 .venn .hot{cursor:pointer}
-.venn .hot circle{transition:r .15s}
-.venn .hot:hover circle.ring,.venn .hot.on circle.ring{stroke-width:4}
-.venn .hot:focus{outline:none}.venn .hot:focus-visible circle.ring{stroke:var(--ink);stroke-width:4}
-.inter-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
-.inter-tabs button{font:inherit;font-size:14px;font-weight:600;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);border-radius:999px;padding:7px 13px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
-.inter-tabs button[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
-.mini{display:inline-flex}.mini i{width:9px;height:9px;border-radius:50%;margin-right:-2px;border:1.5px solid var(--surface)}
-.detail{min-height:300px}
-.detail h3{font-size:22px}
-.detail .q{font-style:italic;color:var(--ink-2);border-left:3px solid var(--line);padding-left:12px;margin:10px 0 16px}
-.detail ul{padding-left:18px;margin:0}
-.detail li{margin:6px 0}
-.detail .ex{margin-top:16px;background:var(--surface-2);border-radius:12px;padding:14px 16px;font-size:14px}
-@media (max-width:900px){.venn-grid{grid-template-columns:1fr}}
+.venn .hot .ring{transition:r .3s var(--ease),stroke-width .3s}
+.venn .hot .halo{opacity:0;transition:opacity .3s}
+.venn .hot.on .halo{opacity:1}
+.venn .hot:hover .ring{r:30}
+.venn .hot:focus{outline:none}
+.halo{animation:halo 1.8s ease-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes halo{from{transform:scale(1);opacity:.8}to{transform:scale(1.9);opacity:0}}
+.inter-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.inter-tabs button{font:inherit;font-size:14px;font-weight:700;border:1px solid var(--line);background:transparent;color:var(--ink-2);border-radius:999px;padding:9px 15px;cursor:pointer;transition:.25s}
+.inter-tabs button:hover{color:var(--ink);border-color:rgba(255,255,255,.25)}
+.inter-tabs button[aria-selected="true"]{background:var(--ink);color:#0a0c10;border-color:var(--ink)}
+.detail{min-height:360px}
+.detail .inner{animation:swap .6s var(--ease)}
+@keyframes swap{from{opacity:0;transform:translateY(16px);filter:blur(4px)}}
+.detail h3{font-size:30px;letter-spacing:-.03em}
+.detail .q{font-size:18px;color:var(--ink-2);border-left:3px solid var(--c);padding-left:14px;margin:12px 0 18px}
+.detail ul{padding-left:0;margin:0;list-style:none}
+.detail li{margin:8px 0;padding-left:26px;position:relative;opacity:0;animation:fade .5s forwards}
+.detail li:before{content:"";position:absolute;left:0;top:9px;width:12px;height:2px;background:var(--c)}
+.detail .ex{margin-top:18px;background:rgba(255,255,255,.04);border:1px dashed var(--line);border-radius:14px;padding:16px;font-size:14px;color:var(--ink-2)}
+@media (max-width:960px){.venn-grid{grid-template-columns:1fr}}
 
 /* flow */
-.flow{display:grid;grid-template-columns:repeat(3,1fr);gap:0;position:relative}
-.step{background:var(--surface);border:1px solid var(--line);padding:24px;position:relative}
-section.alt .step{background:var(--bg)}
-.step:first-child{border-radius:16px 0 0 16px}.step:last-child{border-radius:0 16px 16px 0}
-.step+.step{border-left:none}
-.step .time{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:999px;background:var(--surface-2);color:var(--ink-2);margin-bottom:12px}
-.step .ic{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;margin-bottom:12px}
-.step ul{padding-left:18px;margin:10px 0 0;font-size:14px;color:var(--ink-2)}
-.step .arrow{position:absolute;right:-15px;top:46px;width:28px;height:28px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;z-index:2;font-weight:700}
-.timeline-bar{display:grid;grid-template-columns:2fr 1fr;margin-top:14px;font-size:13px;font-weight:700;text-align:center;border-radius:10px;overflow:hidden}
-.timeline-bar div{padding:9px}
-@media (max-width:900px){.flow{grid-template-columns:1fr}.step{border-radius:0!important;border-left:1px solid var(--line)!important}.step+.step{border-top:none}.step:first-child{border-radius:16px 16px 0 0!important}.step:last-child{border-radius:0 0 16px 16px!important}.step .arrow{right:auto;left:24px;top:auto;bottom:-15px;transform:rotate(90deg)}.timeline-bar{grid-template-columns:1fr}}
+.flowsvg{width:100%;height:80px;display:block;margin-bottom:-6px}
+.flowsvg path{stroke-dasharray:6 10;animation:dash 1.2s linear infinite}
+@keyframes dash{to{stroke-dashoffset:-32}}
+.flow{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.step .num{font-size:13px;font-weight:800;letter-spacing:.12em;color:var(--ink-3)}
+.step .time{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:5px 11px;border-radius:999px;margin:14px 0;color:var(--c);border:1px solid color-mix(in srgb,var(--c) 50%,transparent)}
+.step .ic{width:58px;height:58px;border-radius:18px;display:grid;place-items:center;color:var(--c);background:color-mix(in srgb,var(--c) 14%,transparent);position:relative}
+.step .ic:after{content:"";position:absolute;inset:-6px;border-radius:22px;border:1px solid color-mix(in srgb,var(--c) 40%,transparent);animation:halo 2.4s ease-out infinite}
+.step ul{padding-left:18px;margin:12px 0 0;font-size:14px;color:var(--ink-2)}
+.tl{display:grid;grid-template-columns:2fr 1fr;margin-top:18px;border-radius:14px;overflow:hidden;font-weight:800;font-size:14px;text-align:center}
+.tl div{padding:14px;position:relative;overflow:hidden}
+.tl div:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.18),transparent);transform:translateX(-100%);animation:sheen 3.5s infinite}
+@keyframes sheen{60%,100%{transform:translateX(100%)}}
+.crisp{margin-top:22px;color:var(--ink-2);font-size:14px}
+@media (max-width:960px){.flow{grid-template-columns:1fr}.flowsvg{display:none}.tl{grid-template-columns:1fr}}
 
 /* team */
-.org{display:flex;flex-direction:column;align-items:center;gap:0}
-.lead-card{background:var(--dark);color:#fff;border-radius:16px;padding:18px 26px;text-align:center;box-shadow:var(--shadow);min-width:280px}
-.lead-card small{color:#aeb7c1;display:block;font-size:13px}
-.lead-card b{font-size:18px}
-.connector{width:2px;height:28px;background:var(--line)}
-.caps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;width:100%;position:relative}
-.caps:before{content:"";position:absolute;top:-14px;left:16.66%;right:16.66%;height:2px;background:var(--line)}
-.cap{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;position:relative;box-shadow:var(--shadow)}
-.cap:before{content:"";position:absolute;top:-15px;left:50%;width:2px;height:14px;background:var(--line)}
-.cap .time{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
-.cap h3{margin-top:4px}
-.cap p{font-size:14px;color:var(--ink-2);margin:0 0 14px}
-.role{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
-.role .av{width:34px;height:34px;border-radius:50%;flex:none;display:grid;place-items:center;font-size:12px;font-weight:800;color:#fff;background:var(--ink-2)}
-.role b{display:block;font-size:14px}
-.role span{font-size:13px;color:var(--ink-2);display:block}
-.badge{display:inline-block;font-size:11px;font-weight:700;padding:2px 7px;border-radius:999px;margin-left:4px;vertical-align:1px;letter-spacing:.02em}
-.badge.hoy{background:var(--surface-2);color:var(--ink-2)}
-.badge.new{background:color-mix(in srgb,var(--new) 16%,transparent);color:var(--new)}
-.role span.fdots{display:flex;gap:3px;margin-top:5px}.fdots i{width:8px;height:8px;border-radius:50%;display:block}
-.role span.badge{display:inline-block;font-size:11px}
-@media (max-width:900px){.caps{grid-template-columns:1fr}.caps:before,.cap:before{display:none}.caps{gap:14px}}
-
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:30px 0 0}
-.stat{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
-.stat .v{font-size:30px;font-weight:800;letter-spacing:-.02em}
-.stat .l{font-size:13px;color:var(--ink-2)}
-@media (max-width:700px){.stats{grid-template-columns:1fr 1fr}}
+.team-wrap{position:relative}
+.leader{max-width:440px;margin:0 auto;text-align:center;padding:24px;background:linear-gradient(135deg,rgba(253,0,110,.18),rgba(0,150,220,.18));border:1px solid rgba(255,255,255,.18)}
+.leader small{color:var(--ink-2);display:block;font-size:13px;letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+.leader b{font-size:22px;display:block;margin:6px 0}
+.leader p{margin:0;font-size:14px;color:var(--ink-2)}
+#orgLines{width:100%;height:70px;display:block}
+#orgLines path{fill:none;stroke-width:2;stroke-dasharray:400;stroke-dashoffset:400;transition:stroke-dashoffset 1.6s var(--ease)}
+#orgLines.in path{stroke-dashoffset:0}
+.caps{display:grid;grid-template-columns:1fr 1.35fr 1fr;gap:18px}
+.cap{padding:24px;border-top:3px solid var(--c)}
+.cap .time{font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--c)}
+.cap h3{margin:6px 0 6px;font-size:22px}
+.cap>p{font-size:14px;color:var(--ink-2);margin:0 0 16px}
+.cap .count{position:absolute;top:18px;right:20px;font-size:44px;font-weight:900;letter-spacing:-.04em;color:var(--c);opacity:.9}
+.person{display:flex;gap:12px;align-items:flex-start;padding:12px;border-radius:14px;background:rgba(255,255,255,.03);border:1px solid var(--line);margin-top:10px;opacity:0;transform:translateY(14px) scale(.97);transition:opacity .6s var(--ease),transform .6s var(--ease),background .25s;transition-delay:var(--d,0s)}
+.in .person{opacity:1;transform:none}
+.person:hover{background:rgba(255,255,255,.07)}
+.av{width:38px;height:38px;border-radius:12px;flex:none;display:grid;place-items:center;font-size:12px;font-weight:900;color:#0a0c10;background:var(--c)}
+.person b{display:block;font-size:14px;line-height:1.3}
+.person span{font-size:13px;color:var(--ink-2);display:block}
+.person span.av{display:grid;color:#0a0c10;font-size:12px}
+.person span.tagx{display:inline-block;font-size:10.5px}
+.cap h3{padding-right:56px}
+.tagx{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:6px;margin-top:6px;margin-right:4px;background:rgba(255,255,255,.07);color:var(--ink-2)}
+.tagx.new{background:rgba(47,210,122,.15);color:var(--new)}
+.tagx.a{color:var(--aud);background:rgba(0,150,220,.14)}.tagx.c{color:#ff5aa0;background:rgba(253,0,110,.14)}.tagx.m{color:var(--mkt);background:rgba(255,203,0,.12)}
+.jrgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.jr{border-radius:12px;padding:12px;background:rgba(255,255,255,.03);border:1px solid var(--line);opacity:0;transform:scale(.9);transition:opacity .5s var(--ease),transform .5s var(--ease);transition-delay:var(--d,0s)}
+.in .jr{opacity:1;transform:none}
+.jr .dots2{display:flex;gap:4px;margin-bottom:8px}
+.jr .dots2 i{width:22px;height:22px;border-radius:7px;background:var(--c);display:block;animation:bob 3s var(--ease) infinite}
+.jr .dots2 i:nth-child(2){animation-delay:.3s}.jr .dots2 i:nth-child(3){animation-delay:.6s}
+.jr b{font-size:13px;display:block}.jr span{font-size:12px;color:var(--ink-2)}
+.team-legend{display:flex;gap:18px;flex-wrap:wrap;justify-content:center;margin-top:26px;font-size:13px;color:var(--ink-2)}
+.team-legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+@media (max-width:1000px){.caps{grid-template-columns:1fr}#orgLines{display:none}.leader{margin-bottom:18px}}
+@media (max-width:520px){.jrgrid{grid-template-columns:1fr}}
 
 /* matrix */
-.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:16px;background:var(--surface)}
-table{border-collapse:collapse;width:100%;min-width:720px;font-size:14px}
-th,td{padding:14px 16px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
-tr:last-child td{border-bottom:none}
-thead th{font-size:13px;letter-spacing:.04em;background:var(--surface-2)}
-thead th .bar{display:block;height:4px;border-radius:2px;margin-bottom:8px}
-tbody th{width:22%;font-size:14px}
-tbody th small{display:block;font-weight:400;color:var(--ink-3);margin-top:2px}
-td{color:var(--ink-2)}
+.matrix{display:grid;grid-template-columns:200px repeat(3,1fr);gap:10px}
+.matrix .h{font-weight:800;font-size:15px;padding:12px 14px;border-radius:12px;display:flex;align-items:center;gap:8px}
+.matrix .h i{width:10px;height:10px;border-radius:50%}
+.matrix .r{font-weight:800;font-size:14px;padding:16px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid var(--line)}
+.matrix .r small{display:block;font-weight:500;color:var(--ink-3);margin-top:3px}
+.matrix .cell{font-size:14px;color:var(--ink-2);padding:16px;border-radius:14px;background:var(--card);border:1px solid var(--line);transition:transform .3s var(--ease),border-color .3s,background .3s}
+.matrix .cell:hover{transform:translateY(-4px);border-color:var(--c);background:color-mix(in srgb,var(--c) 8%,var(--card))}
+@media (max-width:900px){.matrix{grid-template-columns:1fr}.matrix .h{display:none}.matrix .cell:before{content:attr(data-f);display:block;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--c);margin-bottom:4px}}
 
 /* requests */
-.req{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;counter-reset:r}
-.req .card{padding:20px;position:relative}
-.req .card:before{counter-increment:r;content:counter(r);position:absolute;top:18px;right:18px;font-weight:800;font-size:28px;color:var(--line)}
-.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:20px}
-.tier{border-radius:14px;padding:18px;border:1px solid var(--line);background:var(--surface)}
-section.alt .tier{background:var(--bg)}
-.tier .sla{font-size:24px;font-weight:800;letter-spacing:-.02em}
-.tier p{font-size:14px;color:var(--ink-2);margin:6px 0 0}
+.req{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;position:relative}
+.req .card{padding:24px}
+.req .n{font-size:56px;font-weight:900;letter-spacing:-.05em;line-height:1;opacity:.18}
+.req p{color:var(--ink-2);font-size:14px;margin:6px 0 0}
+.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:16px}
+.tier .sla{font-size:44px;font-weight:900;letter-spacing:-.04em;color:var(--c);line-height:1}
+.tier p{font-size:14px;color:var(--ink-2);margin:8px 0 0}
+.tier .meter{height:6px;border-radius:3px;background:rgba(255,255,255,.07);margin-top:16px;overflow:hidden}
+.tier .meter i{display:block;height:100%;background:var(--c);width:0;transition:width 1.4s var(--ease) .3s}
+.tier.in .meter i{width:var(--w)}
 @media (max-width:900px){.req,.tiers{grid-template-columns:1fr 1fr}}
 @media (max-width:520px){.req,.tiers{grid-template-columns:1fr}}
 
-/* rituals + roadmap */
-.rituals{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-.rit{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px}
-.rit .f{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--com-ink)}
-.rit h3{font-size:16px;margin:6px 0}
+/* rituals */
+.rituals{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.rit .f{font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--c)}
+.rit h3{font-size:18px;margin:10px 0 6px}
 .rit p{font-size:14px;color:var(--ink-2);margin:0}
-@media (max-width:900px){.rituals{grid-template-columns:1fr 1fr}}
+.rit .clock{width:44px;height:44px;border-radius:50%;border:2px solid var(--c);position:relative;margin-bottom:14px}
+.rit .clock:after{content:"";position:absolute;left:50%;top:50%;width:2px;height:15px;background:var(--c);transform-origin:50% 0;animation:tick var(--s) linear infinite}
+@keyframes tick{from{transform:translateX(-50%) rotate(180deg)}to{transform:translateX(-50%) rotate(540deg)}}
+@media (max-width:960px){.rituals{grid-template-columns:1fr 1fr}}
 @media (max-width:520px){.rituals{grid-template-columns:1fr}}
-.road{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-.phase{border-radius:16px;padding:22px;background:var(--bg);border:1px solid var(--line);position:relative;overflow:hidden}
-.phase:before{content:"";position:absolute;inset:0 0 auto 0;height:5px}
-.phase.p1:before{background:var(--aud)}.phase.p2:before{background:var(--com)}.phase.p3:before{background:var(--mkt)}
-.phase .when{font-size:13px;font-weight:700;color:var(--ink-3)}
-.phase ul{padding-left:18px;margin:10px 0 0;font-size:14px;color:var(--ink-2)}
-.phase li{margin:5px 0}
-@media (max-width:900px){.road{grid-template-columns:1fr}}
 
-footer{background:var(--dark);color:#aeb7c1;padding:40px 0;font-size:14px}
-footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
-footer b{color:#fff}
+/* roadmap */
+.road{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:18px;padding-top:40px}
+.road .line{position:absolute;top:12px;left:0;right:0;height:3px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden}
+.road .line i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--aud),var(--com),var(--mkt));transition:width 2s var(--ease)}
+.road.in .line i{width:100%}
+.phase{position:relative}
+.phase:before{content:"";position:absolute;top:-36px;left:28px;width:16px;height:16px;border-radius:50%;background:var(--c);box-shadow:0 0 0 6px color-mix(in srgb,var(--c) 25%,transparent)}
+.phase .when{font-size:13px;font-weight:800;color:var(--c);letter-spacing:.06em}
+.phase h3{font-size:24px;margin-top:6px}
+.phase ul{padding-left:18px;margin:12px 0 0;font-size:14px;color:var(--ink-2)}
+.phase li{margin:6px 0}
+@media (max-width:960px){.road{grid-template-columns:1fr}.road .line,.phase:before{display:none}}
+
+/* closing */
+.closing{text-align:center;padding:140px 0;overflow:hidden}
+.closing h2{font-size:clamp(40px,7vw,96px)}
+.closing p{color:var(--ink-2);font-size:19px;max-width:620px;margin:0 auto}
+footer{border-top:1px solid var(--line);padding:30px 0;font-size:14px;color:var(--ink-3)}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+
+@media (prefers-reduced-motion:reduce){
+  *,*:before,*:after{animation:none!important;transition:none!important}
+  .rv,.person,.jr,.hero h1 .ln>span,.hero p.lead,.cta{opacity:1!important;transform:none!important;filter:none!important}
+  .rot b{display:none}.rot b.on{display:inline;opacity:1;transform:none}
+}
 </style>
 </head>
 <body>
+<div id="progress"></div>
+<div id="glow"></div>
 
-<nav class="top" aria-label="Secciones">
-  <div class="wrap">
-    <a class="brand" href="#inicio"><span class="dots"><i style="background:var(--aud)"></i><i style="background:var(--com)"></i><i style="background:var(--mkt)"></i></span>Inteligencia de Negocios</a>
-    <div class="links">
-      <a href="#por-que">Por qué</a>
-      <a href="#frentes">Frentes</a>
-      <a href="#relacion">Relación</a>
-      <a href="#modelo">Modelo</a>
-      <a href="#equipo">Equipo</a>
-      <a href="#solicitudes">Solicitudes</a>
-      <a href="#hoja-de-ruta">Hoja de ruta</a>
-    </div>
-    <button id="themeBtn" aria-label="Cambiar tema" title="Cambiar tema">◐</button>
+<nav class="top" id="nav" aria-label="Secciones">
+  <a class="brand" href="#inicio"><span class="dots"><i style="background:var(--aud)"></i><i style="background:var(--com)"></i><i style="background:var(--mkt)"></i></span>Inteligencia de Negocios</a>
+  <div class="links">
+    <a href="#por-que">Por qué</a><a href="#frentes">Frentes</a><a href="#relacion">Relación</a><a href="#modelo">Modelo</a><a href="#equipo">Equipo</a><a href="#solicitudes">Solicitudes</a><a href="#hoja-de-ruta">Ruta</a>
   </div>
 </nav>
 
 <header class="hero" id="inicio">
+  <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+  <canvas id="net" aria-hidden="true"></canvas>
   <div class="wrap">
-    <div>
-      <div class="eyebrow">Prisa Media Colombia</div>
-      <h1>Una sola área.<br>Tres frentes.<br><span>Un mismo dato.</span></h1>
-      <p class="lead">Inteligencia de Negocios integra la analítica de <b>Audiencia</b>, la gestión <b>Comercial</b> y la lectura del <b>Market</b> publicitario en un equipo que comparte datos, criterios y prioridades para convertir información en monetización.</p>
-      <div class="chips">
-        <span class="chip"><i style="background:var(--aud)"></i>Audiencia</span>
-        <span class="chip"><i style="background:var(--com)"></i>Comercial</span>
-        <span class="chip"><i style="background:var(--mkt)"></i>Market</span>
-      </div>
-    </div>
-    <div class="hero-art" aria-hidden="true">
-      <svg viewBox="0 0 400 380">
-        <g style="mix-blend-mode:screen">
-          <circle cx="200" cy="130" r="110" fill="#FD006E" opacity=".9"/>
-          <circle cx="140" cy="235" r="110" fill="#FFCB00" opacity=".9"/>
-          <circle cx="260" cy="235" r="110" fill="#0096DC" opacity=".9"/>
-        </g>
-        <circle cx="200" cy="200" r="44" fill="#1e2329"/>
-        <text x="200" y="207" text-anchor="middle" fill="#fff" font-family="Inter,sans-serif" font-weight="800" font-size="20">DATA</text>
-        <text x="200" y="88" text-anchor="middle" fill="#fff" font-family="Inter,sans-serif" font-weight="700" font-size="15">COMERCIAL</text>
-        <text x="112" y="280" text-anchor="middle" fill="#1e2329" font-family="Inter,sans-serif" font-weight="700" font-size="15">MARKET</text>
-        <text x="290" y="280" text-anchor="middle" fill="#fff" font-family="Inter,sans-serif" font-weight="700" font-size="15">AUDIENCIA</text>
-      </svg>
+    <span class="kicker"><span class="pulse"></span>Prisa Media Colombia · Inteligencia de Negocios</span>
+    <h1>
+      <span class="ln"><span>Una sola área.</span></span>
+      <span class="ln"><span>Un mismo dato.</span></span>
+      <span class="ln"><span class="rot" id="rot"><b class="on" style="color:var(--aud)">Audiencia.</b><b style="color:var(--com)">Comercial.</b><b style="color:var(--mkt)">Market.</b><b class="grad">Monetización.</b></span></span>
+    </h1>
+    <p class="lead">Integramos la analítica de audiencias, la gestión comercial y la lectura del mercado publicitario en un solo equipo que comparte datos, criterios y prioridades para convertir información en ingresos.</p>
+    <div class="cta">
+      <a class="btn primary" href="#relacion">Ver cómo se conecta →</a>
+      <a class="btn ghost" href="#equipo">Conocer el equipo</a>
     </div>
   </div>
+  <div class="scrollcue" aria-hidden="true"></div>
 </header>
+
+<div class="marquee" aria-hidden="true"><div class="track" id="mq">
+  <span style="--c:var(--aud)">First-party data</span><span style="--c:var(--com)">Cumplimiento</span><span style="--c:var(--mkt)">Pricing</span><span style="--c:var(--aud)">Perfilamiento</span><span style="--c:var(--com)">Cartera</span><span style="--c:var(--mkt)">Competencia</span><span style="--c:var(--aud)">Comunidades</span><span style="--c:var(--com)">Presupuesto</span><span style="--c:var(--mkt)">Tendencias</span><span style="--c:var(--aud)">Alcance y frecuencia</span><span style="--c:var(--com)">Recompra</span><span style="--c:var(--mkt)">Share de mercado</span>
+</div></div>
 
 <!-- POR QUÉ -->
 <section id="por-que">
   <div class="wrap">
-    <div class="sec-head">
+    <div class="sec-head rv">
       <div class="eyebrow">Por qué existe el área</div>
-      <h2>De cinco fuentes desarticuladas a una cultura de decisión basada en datos</h2>
+      <h2>De cinco fuentes desarticuladas a <span class="grad">una cultura de datos</span></h2>
+    </div>
+    <div class="stats">
+      <div class="card stat rv" style="--d:0s"><div class="v" data-count="5">0</div><div class="l">Áreas generando datos con criterios distintos</div><div class="bar"><i style="--w:100%;background:var(--com)"></i></div></div>
+      <div class="card stat rv" style="--d:.1s"><div class="v" data-count="3">0</div><div class="l">Frentes: Audiencia, Comercial y Market</div><div class="bar"><i style="--w:60%;background:var(--aud)"></i></div></div>
+      <div class="card stat rv" style="--d:.2s"><div class="v" data-count="15">0</div><div class="l">Personas en el equipo hoy</div><div class="bar"><i style="--w:80%;background:var(--mkt)"></i></div></div>
+      <div class="card stat rv" style="--d:.3s"><div class="v" data-count="1">0</div><div class="l">Banco de datos, backlog y líder</div><div class="bar"><i style="--w:20%;background:var(--new)"></i></div></div>
     </div>
     <div class="po">
-      <div class="card">
-        <div class="tag" style="color:var(--com-ink)">Problema</div>
-        <p class="big">Hoy existen 5 áreas que generan datos y trabajan de manera desarticulada, con diferentes criterios en el manejo de la información.</p>
-      </div>
-      <div class="card">
-        <div class="tag" style="color:var(--aud-ink)">Objetivo</div>
-        <p class="big">Consolidar una cultura de gestión de negocios y monetización a partir de la inteligencia de datos.</p>
-      </div>
+      <div class="card rv rv-l tilt"><div class="tag" style="color:var(--com)">Problema</div><p class="big">Hoy existen 5 áreas que generan datos y trabajan de manera desarticulada, con diferentes criterios en el manejo de la información.</p></div>
+      <div class="card rv rv-r tilt"><div class="tag" style="color:var(--aud)">Objetivo</div><p class="big">Consolidar una cultura de gestión de negocios y monetización a partir de la inteligencia de datos.</p></div>
     </div>
     <div class="goals">
-      <div class="goal"><span class="n">01</span><b>Optimizar</b>el procesamiento, diseño y análisis de los datos.</div>
-      <div class="goal"><span class="n">02</span><b>Fortalecer lo propio</b>canales y productos con recomendaciones estratégicas basadas en datos.</div>
-      <div class="goal"><span class="n">03</span><b>Venta directa</b>fortalecer nuestra oferta en el mercado.</div>
-      <div class="goal"><span class="n">04</span><b>Sinergia</b>de datos entre las distintas fuentes.</div>
-      <div class="goal"><span class="n">05</span><b>Articular</b>producto, comercial, desarrollo y financiero para decidir con datos.</div>
+      <div class="card goal rv tilt" style="--d:0s"><span class="n grad">01</span><b>Optimizar</b><span>el procesamiento, diseño y análisis de los datos.</span></div>
+      <div class="card goal rv tilt" style="--d:.08s"><span class="n grad">02</span><b>Fortalecer lo propio</b><span>canales y productos con recomendaciones basadas en datos.</span></div>
+      <div class="card goal rv tilt" style="--d:.16s"><span class="n grad">03</span><b>Venta directa</b><span>fortalecer nuestra oferta en el mercado.</span></div>
+      <div class="card goal rv tilt" style="--d:.24s"><span class="n grad">04</span><b>Sinergia</b><span>de datos entre las distintas fuentes.</span></div>
+      <div class="card goal rv tilt" style="--d:.32s"><span class="n grad">05</span><b>Articular</b><span>producto, comercial, desarrollo y financiero.</span></div>
     </div>
   </div>
 </section>
 
 <!-- FRENTES -->
-<section class="alt" id="frentes">
+<section id="frentes" style="background:var(--bg-2)">
   <div class="wrap">
-    <div class="sec-head">
+    <div class="sec-head rv">
       <div class="eyebrow">Los tres frentes</div>
-      <h2>Qué cubre cada frente</h2>
-      <p>No son tres equipos separados: son tres dominios de conocimiento sobre los que trabaja el mismo equipo, con un único modelo de datos y un único backlog.</p>
+      <h2>Tres miradas, <span class="grad">un solo equipo</span></h2>
+      <p>No son tres equipos separados: son tres dominios de conocimiento sobre los que trabaja la misma área, con un único modelo de datos y un único backlog.</p>
     </div>
     <div class="fronts">
-      <article class="front a">
-        <div class="hd">
-          <div class="letter">A</div>
-          <h3>Audiencia</h3>
-          <p>Conocimiento profundo de las audiencias de nuestros medios y evaluación de contenidos.</p>
-        </div>
+      <article class="card front rv tilt" style="--c:var(--aud);--d:0s">
+        <div class="topbar"></div>
+        <div class="hd"><div class="big-l">A</div>
+          <div class="ico"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5"/><circle cx="17.5" cy="9" r="2.5"/><path d="M16.5 14.5c2.6.2 4.4 1.9 5 5"/></svg></div>
+          <h3>Audiencia</h3><p>Conocimiento profundo de las audiencias de nuestros medios y evaluación de contenidos.</p></div>
         <div class="bd">
-          <div><h4>Alcance</h4>
-            <div class="pills"><span class="pill">Audiencia de medios</span><span class="pill">Perfilamiento</span><span class="pill">First-party data</span><span class="pill">Comunidades</span><span class="pill">Informes y seguimiento</span></div></div>
-          <div><h4>Preguntas que responde</h4>
-            <ul><li>¿Quién nos lee, escucha y ve, en qué medio, plataforma y momento?</li><li>¿Qué segmentos y comunidades podemos ofrecer a las marcas?</li><li>¿Qué contenidos y formatos crecen o se desgastan?</li></ul></div>
-          <div><h4>Fuentes</h4>
-            <ul><li>Analítica web/app, streaming y podcast, redes sociales</li><li>PRISA ID y registros (first-party)</li><li>Mediciones de terceros (estudios de audiencia, IAB)</li></ul></div>
+          <div><h4>Alcance</h4><div class="pills"><span class="pill">Audiencia de medios</span><span class="pill">Perfilamiento</span><span class="pill">First-party data</span><span class="pill">Comunidades</span><span class="pill">Podcast y audio</span><span class="pill">Informes</span></div></div>
+          <div><h4>Preguntas que responde</h4><ul><li>¿Quién nos lee, escucha y ve, dónde y cuándo?</li><li>¿Qué segmentos y comunidades podemos ofrecer a las marcas?</li><li>¿Qué contenidos y formatos crecen o se desgastan?</li></ul></div>
         </div>
       </article>
-      <article class="front c">
-        <div class="hd">
-          <div class="letter">C</div>
-          <h3>Comercial</h3>
-          <p>Evaluación y seguimiento constante del desempeño de la fuerza de ventas.</p>
-        </div>
+      <article class="card front rv tilt" style="--c:var(--com);--d:.12s">
+        <div class="topbar"></div>
+        <div class="hd"><div class="big-l">C</div>
+          <div class="ico"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 20h18"/><rect x="5" y="11" width="3" height="6" rx="1"/><rect x="10.5" y="7" width="3" height="10" rx="1"/><rect x="16" y="4" width="3" height="13" rx="1"/></svg></div>
+          <h3>Comercial</h3><p>Evaluación y seguimiento constante del desempeño de la fuerza de ventas.</p></div>
         <div class="bd">
-          <div><h4>Alcance</h4>
-            <div class="pills"><span class="pill">Gestión comercial</span><span class="pill">Presupuesto</span><span class="pill">Cumplimiento</span><span class="pill">Cartera</span><span class="pill">Seguimiento</span></div></div>
-          <div><h4>Preguntas que responde</h4>
-            <ul><li>¿Cómo vamos contra presupuesto por ejecutivo, medio, cliente y sector?</li><li>¿Qué propuestas están en curso y cuál es su probabilidad de cierre?</li><li>¿Qué cartera está en riesgo y qué clientes no han recomprado?</li></ul></div>
-          <div><h4>Fuentes</h4>
-            <ul><li>CRM y pipeline de propuestas</li><li>Facturación, órdenes y ad server</li><li>Sistemas financieros (presupuesto, cartera)</li></ul></div>
+          <div><h4>Alcance</h4><div class="pills"><span class="pill">Gestión comercial</span><span class="pill">Presupuesto</span><span class="pill">Cumplimiento</span><span class="pill">Cartera</span><span class="pill">Seguimiento</span></div></div>
+          <div><h4>Preguntas que responde</h4><ul><li>¿Cómo vamos contra presupuesto por ejecutivo, medio y cliente?</li><li>¿Qué propuestas están en curso y cuál es su probabilidad de cierre?</li><li>¿Qué cartera está en riesgo y quién no ha recomprado?</li></ul></div>
         </div>
       </article>
-      <article class="front m">
-        <div class="hd">
-          <div class="letter">M</div>
-          <h3>Market</h3>
-          <p>Panorama y tendencias del mercado publicitario y su entorno.</p>
-        </div>
+      <article class="card front rv tilt" style="--c:var(--mkt);--d:.24s">
+        <div class="topbar"></div>
+        <div class="hd"><div class="big-l">M</div>
+          <div class="ico"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></svg></div>
+          <h3>Market</h3><p>Panorama y tendencias del mercado publicitario y su entorno.</p></div>
         <div class="bd">
-          <div><h4>Alcance</h4>
-            <div class="pills"><span class="pill">Mercado publicitario</span><span class="pill">Competencia</span><span class="pill">Pricing</span><span class="pill">Tendencias</span></div></div>
-          <div><h4>Preguntas que responde</h4>
-            <ul><li>¿Cuánto invierte el mercado, en qué sectores y medios, y qué participación tenemos?</li><li>¿A qué precio vende la competencia y dónde estamos nosotros?</li><li>¿Qué anunciantes y categorías están creciendo?</li></ul></div>
-          <div><h4>Fuentes</h4>
-            <ul><li>Monitoreo de inversión publicitaria</li><li>Cifras IAB y estudios sectoriales</li><li>Tarifarios y benchmark de competencia</li></ul></div>
+          <div><h4>Alcance</h4><div class="pills"><span class="pill">Mercado publicitario</span><span class="pill">Competencia</span><span class="pill">Pricing</span><span class="pill">Tendencias</span></div></div>
+          <div><h4>Preguntas que responde</h4><ul><li>¿Cuánto invierte el mercado, en qué sectores y medios?</li><li>¿A qué precio vende la competencia y dónde estamos?</li><li>¿Qué anunciantes y categorías están creciendo?</li></ul></div>
         </div>
       </article>
     </div>
@@ -352,45 +399,38 @@ footer b{color:#fff}
 <!-- RELACIÓN -->
 <section id="relacion">
   <div class="wrap">
-    <div class="sec-head">
+    <div class="sec-head rv">
       <div class="eyebrow">Cómo se relacionan</div>
-      <h2>El valor está en las intersecciones</h2>
-      <p>Cada frente aporta una mirada; cruzarlas es lo que genera oportunidades de negocio. Selecciona una intersección en el diagrama.</p>
+      <h2>El valor está en <span class="grad">las intersecciones</span></h2>
+      <p>Cada frente aporta una mirada; cruzarlas es lo que genera oportunidades de negocio. Toca una intersección.</p>
     </div>
     <div class="venn-grid">
-      <div class="venn">
-        <svg viewBox="0 0 500 470" role="img" aria-label="Diagrama de intersecciones entre Audiencia, Comercial y Market">
-          <circle class="zone" cx="250" cy="165" r="135" fill="#FD006E" fill-opacity=".22" stroke="#FD006E" stroke-width="2.5"/>
-          <circle class="zone" cx="175" cy="295" r="135" fill="#FFCB00" fill-opacity=".26" stroke="#e0b200" stroke-width="2.5"/>
-          <circle class="zone" cx="325" cy="295" r="135" fill="#0096DC" fill-opacity=".22" stroke="#0096DC" stroke-width="2.5"/>
-          <text x="250" y="72" text-anchor="middle" font-weight="800" font-size="16" style="fill:var(--com-ink)">COMERCIAL</text>
-          <text x="110" y="385" text-anchor="middle" font-weight="800" font-size="16" style="fill:var(--mkt-ink)">MARKET</text>
-          <text x="390" y="385" text-anchor="middle" font-weight="800" font-size="16" style="fill:var(--aud-ink)">AUDIENCIA</text>
-
-          <g class="hot" data-k="CM" tabindex="0" role="button" aria-label="Comercial y Market">
-            <circle class="ring" cx="168" cy="200" r="24" style="fill:var(--surface)" stroke="#888" stroke-width="2"/>
-            <text x="168" y="206" text-anchor="middle" font-weight="800" font-size="15" style="fill:var(--ink)">C·M</text>
-          </g>
-          <g class="hot" data-k="AC" tabindex="0" role="button" aria-label="Audiencia y Comercial">
-            <circle class="ring" cx="332" cy="200" r="24" style="fill:var(--surface)" stroke="#888" stroke-width="2"/>
-            <text x="332" y="206" text-anchor="middle" font-weight="800" font-size="15" style="fill:var(--ink)">A·C</text>
-          </g>
-          <g class="hot" data-k="AM" tabindex="0" role="button" aria-label="Audiencia y Market">
-            <circle class="ring" cx="250" cy="355" r="24" style="fill:var(--surface)" stroke="#888" stroke-width="2"/>
-            <text x="250" y="361" text-anchor="middle" font-weight="800" font-size="15" style="fill:var(--ink)">A·M</text>
-          </g>
-          <g class="hot on" data-k="ACM" tabindex="0" role="button" aria-label="Centro: los tres frentes">
-            <circle class="ring" cx="250" cy="255" r="36" fill="#1e2329" stroke="#1e2329" stroke-width="2"/>
-            <text x="250" y="262" text-anchor="middle" font-weight="800" font-size="17" fill="#fff">DATA</text>
-          </g>
+      <div class="venn rv rv-s">
+        <svg viewBox="0 0 540 500" role="img" aria-label="Diagrama de intersecciones entre Audiencia, Comercial y Market">
+          <defs>
+            <radialGradient id="gC"><stop offset="0" stop-color="#FD006E" stop-opacity=".55"/><stop offset="1" stop-color="#FD006E" stop-opacity=".12"/></radialGradient>
+            <radialGradient id="gM"><stop offset="0" stop-color="#FFCB00" stop-opacity=".5"/><stop offset="1" stop-color="#FFCB00" stop-opacity=".1"/></radialGradient>
+            <radialGradient id="gA"><stop offset="0" stop-color="#0096DC" stop-opacity=".55"/><stop offset="1" stop-color="#0096DC" stop-opacity=".12"/></radialGradient>
+          </defs>
+          <g class="spin" opacity=".35"><circle cx="270" cy="255" r="235" fill="none" stroke="#fff" stroke-width="1" stroke-dasharray="2 10"/><circle cx="270" cy="20" r="4" fill="#FD006E"/><circle cx="35" cy="255" r="4" fill="#FFCB00"/><circle cx="505" cy="255" r="4" fill="#0096DC"/></g>
+          <circle class="orb" cx="270" cy="180" r="138" fill="url(#gC)" stroke="#FD006E" stroke-width="2"/>
+          <circle class="orb o2" cx="192" cy="315" r="138" fill="url(#gM)" stroke="#FFCB00" stroke-width="2"/>
+          <circle class="orb o3" cx="348" cy="315" r="138" fill="url(#gA)" stroke="#0096DC" stroke-width="2"/>
+          <text x="270" y="88" text-anchor="middle" font-weight="900" font-size="17" fill="#ff5aa0" letter-spacing="2">COMERCIAL</text>
+          <text x="128" y="400" text-anchor="middle" font-weight="900" font-size="17" fill="#FFCB00" letter-spacing="2">MARKET</text>
+          <text x="412" y="400" text-anchor="middle" font-weight="900" font-size="17" fill="#3db8f0" letter-spacing="2">AUDIENCIA</text>
+          <g class="hot" data-k="CM" tabindex="0" role="button" aria-label="Comercial y Market"><circle class="halo" cx="186" cy="218" r="25" fill="none" stroke="#fff" stroke-width="2"/><circle class="ring" cx="186" cy="218" r="25" fill="#0a0c10" stroke="#fff" stroke-width="2"/><text x="186" y="224" text-anchor="middle" font-weight="900" font-size="15" fill="#fff">C·M</text></g>
+          <g class="hot" data-k="AC" tabindex="0" role="button" aria-label="Audiencia y Comercial"><circle class="halo" cx="354" cy="218" r="25" fill="none" stroke="#fff" stroke-width="2"/><circle class="ring" cx="354" cy="218" r="25" fill="#0a0c10" stroke="#fff" stroke-width="2"/><text x="354" y="224" text-anchor="middle" font-weight="900" font-size="15" fill="#fff">A·C</text></g>
+          <g class="hot" data-k="AM" tabindex="0" role="button" aria-label="Audiencia y Market"><circle class="halo" cx="270" cy="380" r="25" fill="none" stroke="#fff" stroke-width="2"/><circle class="ring" cx="270" cy="380" r="25" fill="#0a0c10" stroke="#fff" stroke-width="2"/><text x="270" y="386" text-anchor="middle" font-weight="900" font-size="15" fill="#fff">A·M</text></g>
+          <g class="hot on" data-k="ACM" tabindex="0" role="button" aria-label="Centro: los tres frentes"><circle class="halo" cx="270" cy="275" r="38" fill="none" stroke="#fff" stroke-width="2"/><circle class="ring" cx="270" cy="275" r="38" fill="#fff" stroke="#fff" stroke-width="2"/><text x="270" y="282" text-anchor="middle" font-weight="900" font-size="18" fill="#0a0c10">DATA</text></g>
         </svg>
       </div>
-      <div>
+      <div class="rv rv-r">
         <div class="inter-tabs" role="tablist">
-          <button role="tab" data-k="ACM" aria-selected="true"><span class="mini"><i style="background:#1e2329"></i></span>Centro</button>
-          <button role="tab" data-k="CM" aria-selected="false"><span class="mini"><i style="background:var(--com)"></i><i style="background:var(--mkt)"></i></span>Comercial + Market</button>
-          <button role="tab" data-k="AM" aria-selected="false"><span class="mini"><i style="background:var(--aud)"></i><i style="background:var(--mkt)"></i></span>Audiencia + Market</button>
-          <button role="tab" data-k="AC" aria-selected="false"><span class="mini"><i style="background:var(--aud)"></i><i style="background:var(--com)"></i></span>Audiencia + Comercial</button>
+          <button role="tab" data-k="ACM" aria-selected="true">● Centro</button>
+          <button role="tab" data-k="CM" aria-selected="false">Comercial + Market</button>
+          <button role="tab" data-k="AM" aria-selected="false">Audiencia + Market</button>
+          <button role="tab" data-k="AC" aria-selected="false">Audiencia + Comercial</button>
         </div>
         <div class="card detail" id="detail" aria-live="polite"></div>
       </div>
@@ -399,126 +439,136 @@ footer b{color:#fff}
 </section>
 
 <!-- MODELO -->
-<section class="alt" id="modelo">
+<section id="modelo" style="background:var(--bg-2)">
   <div class="wrap">
-    <div class="sec-head">
+    <div class="sec-head rv">
       <div class="eyebrow">Modelo operativo</div>
-      <h2>Un flujo de datos, del pasado al futuro</h2>
-      <p>Los tres frentes pasan por la misma cadena de valor. Lo que cambia es la pregunta de negocio; la plataforma, los criterios y la calidad del dato son comunes.</p>
+      <h2>Un flujo de datos, <span class="grad">del pasado al futuro</span></h2>
+      <p>Los tres frentes pasan por la misma cadena de valor. Cambia la pregunta de negocio; la plataforma, los criterios y la calidad del dato son comunes.</p>
     </div>
+    <svg class="flowsvg rv" viewBox="0 0 1180 80" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M190 60 C 400 0, 400 0, 590 60" fill="none" stroke="#FD006E" stroke-width="2.5"/>
+      <path d="M590 60 C 780 0, 780 0, 990 60" fill="none" stroke="#0096DC" stroke-width="2.5"/>
+      <circle r="6" fill="#FFCB00"><animateMotion dur="2.4s" repeatCount="indefinite" path="M190 60 C 400 0, 400 0, 590 60"/></circle>
+      <circle r="6" fill="#FD006E"><animateMotion dur="2.4s" begin="1.2s" repeatCount="indefinite" path="M590 60 C 780 0, 780 0, 990 60"/></circle>
+    </svg>
     <div class="flow">
-      <div class="step">
-        <div class="ic" style="background:var(--mkt-soft);color:var(--mkt-ink)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v6c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 11v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg></div>
+      <div class="card step rv tilt" style="--c:var(--mkt);--d:0s">
+        <div class="num">01</div>
+        <div class="ic" style="margin-top:12px"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v6c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 11v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg></div>
         <span class="time">Base</span>
         <h3>Arquitectura e ingeniería de datos</h3>
-        <p class="muted small">Captura, extracción y automatización.</p>
-        <ul><li>Banco de datos único (nube)</li><li>Procesamiento y limpieza</li><li>Integración de fuentes A, C y M</li><li>Control de calidad y gobierno del dato</li></ul>
-        <span class="arrow">›</span>
+        <ul><li>Banco de datos único en la nube</li><li>Captura, extracción y automatización</li><li>Integración de fuentes A, C y M</li><li>Calidad y gobierno del dato</li></ul>
       </div>
-      <div class="step">
-        <div class="ic" style="background:var(--com-soft);color:var(--com-ink)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M7 14v-3M11 14V8M15 14v-5M8 21h8"/></svg></div>
+      <div class="card step rv tilt" style="--c:var(--com);--d:.12s">
+        <div class="num">02</div>
+        <div class="ic" style="margin-top:12px"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M7 14v-3M11 14V8M15 14v-5M8 21h8"/></svg></div>
         <span class="time">Pasado / presente</span>
         <h3>BI, informes y análisis</h3>
-        <p class="muted small">Analítica descriptiva y presentación de datos.</p>
         <ul><li>Informes periódicos y dashboards</li><li>Mediakit y fichas de medios</li><li>Alcance, frecuencia y cierres de campaña</li><li>Alertas y consultas de ejecutivos</li></ul>
-        <span class="arrow">›</span>
       </div>
-      <div class="step">
-        <div class="ic" style="background:var(--aud-soft);color:var(--aud-ink)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></div>
+      <div class="card step rv tilt" style="--c:var(--aud);--d:.24s">
+        <div class="num">03</div>
+        <div class="ic" style="margin-top:12px"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></div>
         <span class="time">Futuro</span>
         <h3>Ciencia de datos</h3>
-        <p class="muted small">Analítica predictiva e inteligencia de datos.</p>
         <ul><li>Proyecciones y modelos predictivos</li><li>Generación de insights</li><li>Oportunidades para marcas y tendencias</li><li>Afinidad audiencia–anunciante</li></ul>
       </div>
     </div>
-    <div class="timeline-bar">
-      <div style="background:var(--surface-2);color:var(--ink-2)">Analítica descriptiva · ¿qué pasó y qué está pasando?</div>
-      <div style="background:var(--ink);color:var(--bg)">Analítica predictiva · ¿qué va a pasar?</div>
+    <div class="tl rv">
+      <div style="background:rgba(255,255,255,.06);color:var(--ink-2)">Analítica descriptiva · ¿qué pasó y qué está pasando?</div>
+      <div style="background:linear-gradient(90deg,var(--com),var(--aud));color:#fff">Analítica predictiva · ¿qué va a pasar?</div>
     </div>
-    <p class="muted small" style="margin-top:18px">Metodología de trabajo: <b>CRISP-DM</b> — comprensión del negocio → comprensión de los datos → preparación → modelado → evaluación → implementación. Sin ingeniería ni ciencia de datos, el ciclo se queda en "negocio → implementación" y pierde la capa de preparación y modelado.</p>
+    <p class="crisp rv">Metodología <b style="color:var(--ink)">CRISP-DM</b>: comprensión del negocio → comprensión de los datos → preparación → modelado → evaluación → implementación.</p>
   </div>
 </section>
 
 <!-- EQUIPO -->
 <section id="equipo">
   <div class="wrap">
-    <div class="sec-head">
+    <div class="sec-head rv">
       <div class="eyebrow">Equipo</div>
-      <h2>Organizado por capacidades, no por silos</h2>
-      <p>Partimos del equipo actual. Cada persona pertenece a una capacidad y tiene un frente de referencia (los puntos de color), pero todos trabajan sobre el mismo backlog y se reasignan según la prioridad del negocio.</p>
+      <h2>15 personas, <span class="grad">organizadas por capacidades</span></h2>
+      <p>Así se acomoda el equipo actual. Cada persona pertenece a una capacidad y tiene un frente de referencia, pero todos trabajan sobre el mismo backlog y se reasignan según la prioridad del negocio.</p>
     </div>
-
-    <div class="org">
-      <div class="lead-card"><small>Líder del área</small><b>Director(a) de Inteligencia de Negocios</b><br><small style="margin-top:4px">Prioriza el backlog · gobierno del dato · enlace con Comercial, Producto, Desarrollo y Financiero</small></div>
-      <div class="connector"></div>
+    <div class="team-wrap" id="team">
+      <div class="card leader rv rv-s">
+        <small>Líder del área</small>
+        <b>Director(a) de Inteligencia de Negocios</b>
+        <p>Prioriza el backlog · gobierno del dato · enlace con Comercial, Producto, Desarrollo y Financiero</p>
+      </div>
+      <svg id="orgLines" viewBox="0 0 1180 70" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M590 0 V30 H170 V70" stroke="#FFCB00"/>
+        <path d="M590 0 V70" stroke="#FD006E"/>
+        <path d="M590 0 V30 H1010 V70" stroke="#0096DC"/>
+      </svg>
       <div class="caps">
-        <div class="cap" style="border-top:5px solid var(--mkt)">
+        <div class="card cap rv" style="--c:var(--mkt);--d:0s">
+          <div class="count">2</div>
           <div class="time">Base · plataforma</div>
           <h3>Arquitectura e Ingeniería de Datos</h3>
-          <p>Construye y mantiene el banco de datos único, los pipelines y la calidad del dato que usa toda el área.</p>
-          <div class="role"><span class="av" style="background:#c79f00">AD</span><div><b>Arquitecto(a) de datos <span class="badge hoy">Hoy: experto BD</span></b><span>Modelo de datos, nube, gobierno y seguridad</span><span class="fdots"><i style="background:var(--aud)"></i><i style="background:var(--com)"></i><i style="background:var(--mkt)"></i></span></div></div>
-          <div class="role"><span class="av" style="background:#c79f00">ID</span><div><b>Ingeniero(a) de datos <span class="badge hoy">Hoy: experto BD</span></b><span>Pipelines ETL/ELT, automatización e integraciones</span><span class="fdots"><i style="background:var(--aud)"></i><i style="background:var(--com)"></i><i style="background:var(--mkt)"></i></span></div></div>
+          <p>Banco de datos único, pipelines, automatización y calidad del dato para toda el área.</p>
+          <div class="person" style="--d:.2s"><span class="av">DV</span><div><b>Desarrollador(a) · Arquitectura de datos</b><span>Modelo de datos, nube, integraciones, seguridad</span><span class="tagx">Hoy: desarrollador</span></div></div>
+          <div class="person" style="--d:.3s"><span class="av">DV</span><div><b>Desarrollador(a) · Ingeniería de datos</b><span>Pipelines ETL, automatización de fuentes A, C y M</span><span class="tagx">Hoy: desarrollador</span></div></div>
         </div>
-        <div class="cap" style="border-top:5px solid var(--com)">
+
+        <div class="card cap rv" style="--c:var(--com);--d:.12s">
+          <div class="count">10</div>
           <div class="time">Pasado / presente</div>
           <h3>BI, Informes y Análisis</h3>
-          <p>Dashboards, informes periódicos, análisis descriptivo y atención de solicitudes de los ejecutivos (alcance, frecuencia, cierres, propuestas).</p>
-          <div class="role"><span class="av" style="background:var(--aud)">JA</span><div><b>Jefe(a) de Audiencias y First-party <span class="badge hoy">Hoy: PRISA ID</span></b><span>Perfilamiento, comunidades, PRISA ID</span><span class="fdots"><i style="background:var(--aud)"></i></span></div></div>
-          <div class="role"><span class="av" style="background:var(--com)">AS</span><div><b>Analista Sr · Comercial <span class="badge hoy">Hoy</span></b><span>Presupuesto, cumplimiento, cartera, pipeline</span><span class="fdots"><i style="background:var(--com)"></i></span></div></div>
-          <div class="role"><span class="av" style="background:var(--aud)">AS</span><div><b>Analista Sr · Audiencia y Market <span class="badge hoy">Hoy</span></b><span>Medición de medios, competencia y pricing</span><span class="fdots"><i style="background:var(--aud)"></i><i style="background:var(--mkt)"></i></span></div></div>
-          <div class="role"><span class="av" style="background:#7b8692">AJ</span><div><b>Analistas Jr (2) · Mesa de solicitudes <span class="badge hoy">Hoy</span></b><span>Alcance y frecuencia, informes de cierre, mediakit</span><span class="fdots"><i style="background:var(--aud)"></i><i style="background:var(--com)"></i><i style="background:var(--mkt)"></i></span></div></div>
+          <p>Dashboards, informes, análisis descriptivo y atención de solicitudes de ejecutivos: alcance, frecuencia, cierres y propuestas.</p>
+          <div class="person" style="--d:.2s"><span class="av">JC</span><div><b>Jefe(a) de Inteligencia Comercial</b><span>Coordina la célula y la mesa de solicitudes; presupuesto, cumplimiento, cartera</span><span class="tagx c">Comercial</span><span class="tagx m">Market</span></div></div>
+          <div class="person" style="--d:.28s"><span class="av" style="background:#fff">SR</span><div><b>Analista Senior</b><span>Control de calidad de entregables, informes integrados y mentoría de juniors</span><span class="tagx a">A</span><span class="tagx c">C</span><span class="tagx m">M</span></div></div>
+          <div class="person" style="--d:.36s"><span class="av" style="background:var(--aud)">PC</span><div><b>Experto(a) en Podcast</b><span>Audiencia de audio digital, descargas, oyentes y monetización de podcast</span><span class="tagx a">Audiencia</span></div></div>
+          <div class="person" style="--d:.44s"><span class="av" style="background:var(--aud)">UX</span><div><b>Experto(a) en UX y diseño web</b><span>Diseño de dashboards, mediakit y productos de datos; experiencia de usuario de medios</span><span class="tagx a">Audiencia</span><span class="tagx">Visualización</span></div></div>
+          <div class="jrgrid">
+            <div class="jr" style="--c:var(--aud);--d:.5s"><div class="dots2"><i></i><i></i></div><b>2 Analistas Jr</b><span>Audiencia y first-party</span></div>
+            <div class="jr" style="--c:var(--com);--d:.58s"><div class="dots2"><i></i><i></i></div><b>2 Analistas Jr</b><span>Comercial y mesa de solicitudes</span></div>
+            <div class="jr" style="--c:var(--mkt);--d:.66s"><div class="dots2"><i></i><i></i></div><b>2 Analistas Jr</b><span>Market, competencia y pricing</span></div>
+          </div>
         </div>
-        <div class="cap" style="border-top:5px solid var(--aud)">
+
+        <div class="card cap rv" style="--c:var(--aud);--d:.24s">
+          <div class="count">2<small style="font-size:18px">+1</small></div>
           <div class="time">Futuro</div>
           <h3>Ciencia de Datos</h3>
-          <p>Modelos predictivos, tendencias y oportunidades para las marcas: qué audiencia, qué anunciante, qué precio y cuándo.</p>
-          <div class="role"><span class="av" style="background:var(--new)">CD</span><div><b>Científico(a) de datos Sr <span class="badge new">Nuevo</span></b><span>Proyecciones de ingresos, propensión de recompra, pricing</span><span class="fdots"><i style="background:var(--com)"></i><i style="background:var(--mkt)"></i></span></div></div>
-          <div class="role"><span class="av" style="background:var(--new)">CD</span><div><b>Científico(a) de datos <span class="badge new">Nuevo</span></b><span>Segmentación, afinidad audiencia–marca, tendencias</span><span class="fdots"><i style="background:var(--aud)"></i><i style="background:var(--mkt)"></i></span></div></div>
-          <p class="small" style="margin:12px 0 0;color:var(--ink-3)">Transición: mientras se incorporan, un Analista Sr asume casos piloto de modelado con apoyo de Ingeniería.</p>
+          <p>Tendencias, modelos predictivos y oportunidades para las marcas: qué audiencia, qué anunciante, qué precio y cuándo.</p>
+          <div class="jr" style="--c:var(--aud);--d:.3s;margin-top:10px"><div class="dots2"><i></i><i></i></div><b>2 Analistas Jr · ruta a ciencia de datos</b><span>Formación en modelado (Python, ML); segmentación, afinidad audiencia–marca y proyecciones</span></div>
+          <div class="person" style="--d:.42s"><span class="av" style="background:var(--new)">CD</span><div><b>Científico(a) de datos Sr</b><span>Lidera los modelos y forma a los juniors de la ruta</span><span class="tagx new">Vacante propuesta</span></div></div>
         </div>
       </div>
-    </div>
-
-    <div class="stats">
-      <div class="stat"><div class="v">8</div><div class="l">Personas hoy</div></div>
-      <div class="stat"><div class="v">+2</div><div class="l">Científicos de datos a incorporar</div></div>
-      <div class="stat"><div class="v">10</div><div class="l">Equipo objetivo</div></div>
-      <div class="stat"><div class="v">1</div><div class="l">Backlog, banco de datos y líder</div></div>
+      <div class="team-legend rv">
+        <span><i style="background:var(--aud)"></i>Audiencia</span><span><i style="background:var(--com)"></i>Comercial</span><span><i style="background:var(--mkt)"></i>Market</span><span><i style="background:var(--new)"></i>Incorporación propuesta</span>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- MATRIZ -->
-<section class="alt" id="matriz">
+<section id="matriz" style="background:var(--bg-2)">
   <div class="wrap">
-    <div class="sec-head">
+    <div class="sec-head rv">
       <div class="eyebrow">Cómo funciona integrado</div>
-      <h2>Capacidades × frentes</h2>
+      <h2>Capacidades <span class="grad">×</span> frentes</h2>
       <p>Cada capacidad entrega valor a los tres frentes. Así se ve el trabajo cuando el área opera como una sola.</p>
     </div>
-    <div class="tbl-wrap">
-      <table>
-        <thead><tr>
-          <th></th>
-          <th><span class="bar" style="background:var(--aud)"></span>Audiencia</th>
-          <th><span class="bar" style="background:var(--com)"></span>Comercial</th>
-          <th><span class="bar" style="background:var(--mkt)"></span>Market</th>
-        </tr></thead>
-        <tbody>
-          <tr><th>Arquitectura e Ingeniería<small>Base</small></th>
-            <td>Integración de analítica digital, streaming, redes y PRISA ID en un perfil unificado.</td>
-            <td>Conexión de CRM, facturación, presupuesto y cartera; actualización automática diaria.</td>
-            <td>Ingesta de monitoreo de inversión, cifras IAB y tarifarios de competencia.</td></tr>
-          <tr><th>BI, Informes y Análisis<small>Pasado / presente</small></th>
-            <td>Tablero de audiencias por medio y plataforma; informes de comunidades y contenidos.</td>
-            <td>Tablero de cumplimiento vs. presupuesto, pipeline, cartera; informes de cierre y recompra.</td>
-            <td>Participación de mercado, monitoreo de anunciantes y sectores, benchmark de precios.</td></tr>
-          <tr><th>Ciencia de Datos<small>Futuro</small></th>
-            <td>Segmentos de afinidad y propensión; predicción de audiencia por contenido.</td>
-            <td>Proyección de cierre de mes, riesgo de cartera, próxima mejor oferta por cliente.</td>
-            <td>Detección temprana de categorías en crecimiento; pricing dinámico recomendado.</td></tr>
-        </tbody>
-      </table>
+    <div class="matrix">
+      <div></div>
+      <div class="h rv"><i style="background:var(--aud)"></i>Audiencia</div>
+      <div class="h rv" style="--d:.08s"><i style="background:var(--com)"></i>Comercial</div>
+      <div class="h rv" style="--d:.16s"><i style="background:var(--mkt)"></i>Market</div>
+      <div class="r rv">Ingeniería<small>Base</small></div>
+      <div class="cell rv" data-f="Audiencia" style="--c:var(--aud);--d:.05s">Integración de analítica web, streaming, podcast, redes y PRISA ID en un perfil unificado.</div>
+      <div class="cell rv" data-f="Comercial" style="--c:var(--com);--d:.1s">Conexión de CRM, facturación, presupuesto y cartera con actualización diaria.</div>
+      <div class="cell rv" data-f="Market" style="--c:var(--mkt);--d:.15s">Ingesta de monitoreo de inversión, cifras IAB y tarifarios de competencia.</div>
+      <div class="r rv">BI y Análisis<small>Pasado / presente</small></div>
+      <div class="cell rv" data-f="Audiencia" style="--c:var(--aud);--d:.05s">Tablero de audiencias por medio y plataforma; informes de comunidades, contenidos y podcast.</div>
+      <div class="cell rv" data-f="Comercial" style="--c:var(--com);--d:.1s">Cumplimiento vs. presupuesto, pipeline y cartera; informes de cierre y recompra.</div>
+      <div class="cell rv" data-f="Market" style="--c:var(--mkt);--d:.15s">Participación de mercado, monitoreo de anunciantes y sectores, benchmark de precios.</div>
+      <div class="r rv">Ciencia de Datos<small>Futuro</small></div>
+      <div class="cell rv" data-f="Audiencia" style="--c:var(--aud);--d:.05s">Segmentos de afinidad y propensión; predicción de audiencia por contenido.</div>
+      <div class="cell rv" data-f="Comercial" style="--c:var(--com);--d:.1s">Proyección de cierre de mes, riesgo de cartera, próxima mejor oferta por cliente.</div>
+      <div class="cell rv" data-f="Market" style="--c:var(--mkt);--d:.15s">Detección temprana de categorías en crecimiento; pricing recomendado.</div>
     </div>
   </div>
 </section>
@@ -526,38 +576,37 @@ footer b{color:#fff}
 <!-- SOLICITUDES -->
 <section id="solicitudes">
   <div class="wrap">
-    <div class="sec-head">
+    <div class="sec-head rv">
       <div class="eyebrow">Atención a ejecutivos</div>
-      <h2>Una sola puerta de entrada para las solicitudes</h2>
-      <p>Alcance, frecuencia, informes de cierre, datos para propuestas: todo entra por un mismo canal y se prioriza en un único backlog.</p>
+      <h2>Una sola puerta <span class="grad">para las solicitudes</span></h2>
+      <p>Alcance, frecuencia, informes de cierre y datos para propuestas: todo entra por un mismo canal y se prioriza en un único backlog.</p>
     </div>
     <div class="req">
-      <div class="card"><h3>Solicitud</h3><p class="muted small">El ejecutivo registra el pedido en el formulario único: cliente, objetivo, fecha y tipo.</p></div>
-      <div class="card"><h3>Triage</h3><p class="muted small">La mesa de solicitudes clasifica por nivel y frente, y asigna responsable.</p></div>
-      <div class="card"><h3>Entrega</h3><p class="muted small">Se responde con datos de la fuente única; si es repetitivo, se convierte en dashboard autoservicio.</p></div>
-      <div class="card"><h3>Aprendizaje</h3><p class="muted small">Casos de éxito, buenas prácticas y resultados de cierre alimentan los modelos.</p></div>
+      <div class="card rv tilt" style="--d:0s"><div class="n">01</div><h3>Solicitud</h3><p>El ejecutivo registra el pedido en el formulario único: cliente, objetivo, fecha y tipo.</p></div>
+      <div class="card rv tilt" style="--d:.1s"><div class="n">02</div><h3>Triage</h3><p>La mesa de solicitudes clasifica por nivel y frente, y asigna responsable.</p></div>
+      <div class="card rv tilt" style="--d:.2s"><div class="n">03</div><h3>Entrega</h3><p>Respuesta con la fuente única; si se repite, se vuelve dashboard de autoservicio.</p></div>
+      <div class="card rv tilt" style="--d:.3s"><div class="n">04</div><h3>Aprendizaje</h3><p>Casos de éxito y resultados de cierre alimentan los modelos.</p></div>
     </div>
     <div class="tiers">
-      <div class="tier"><div class="sla" style="color:var(--aud-ink)">24 h</div><b>Nivel 1 · Consulta</b><p>Alcance y frecuencia estándar, cifras de audiencia, mediakit, datos puntuales.</p></div>
-      <div class="tier"><div class="sla" style="color:var(--com-ink)">3 días</div><b>Nivel 2 · Informe</b><p>Informe de cierre de campaña, propuesta con datos de afinidad, análisis de cliente.</p></div>
-      <div class="tier"><div class="sla" style="color:var(--mkt-ink)">2 semanas</div><b>Nivel 3 · Proyecto</b><p>Estudio de mercado, nuevo dashboard, modelo predictivo o segmentación a medida.</p></div>
+      <div class="card tier rv" style="--c:var(--aud);--d:0s"><div class="sla">24 h</div><b>Nivel 1 · Consulta</b><p>Alcance y frecuencia estándar, cifras de audiencia, mediakit, datos puntuales.</p><div class="meter"><i style="--w:15%"></i></div></div>
+      <div class="card tier rv" style="--c:var(--com);--d:.1s"><div class="sla">3 días</div><b>Nivel 2 · Informe</b><p>Informe de cierre, propuesta con datos de afinidad, análisis de cliente.</p><div class="meter"><i style="--w:45%"></i></div></div>
+      <div class="card tier rv" style="--c:var(--mkt);--d:.2s"><div class="sla">2 sem.</div><b>Nivel 3 · Proyecto</b><p>Estudio de mercado, nuevo dashboard, modelo predictivo o segmentación.</p><div class="meter"><i style="--w:100%"></i></div></div>
     </div>
-    <p class="muted small" style="margin-top:14px">Los tiempos son una propuesta inicial para acordar con la Dirección Comercial.</p>
   </div>
 </section>
 
 <!-- RITUALES -->
-<section class="alt" id="rituales">
+<section id="rituales" style="background:var(--bg-2)">
   <div class="wrap">
-    <div class="sec-head">
+    <div class="sec-head rv">
       <div class="eyebrow">Ritmo de trabajo</div>
-      <h2>Rituales que mantienen al área integrada</h2>
+      <h2>Rituales que <span class="grad">mantienen viva el área</span></h2>
     </div>
     <div class="rituals">
-      <div class="rit"><div class="f">Diario</div><h3>Alertas comerciales</h3><p>Cumplimiento del día, desvíos y oportunidades enviadas a la fuerza de ventas.</p></div>
-      <div class="rit"><div class="f">Semanal</div><h3>Comité de backlog</h3><p>Todo el equipo prioriza solicitudes y proyectos de los tres frentes juntos.</p></div>
-      <div class="rit"><div class="f">Mensual</div><h3>Informe integrado</h3><p>Audiencia + Comercial + Market en un solo documento para la dirección.</p></div>
-      <div class="rit"><div class="f">Trimestral</div><h3>Insights y tendencias</h3><p>Ciencia de Datos presenta oportunidades para marcas y recomendaciones de producto.</p></div>
+      <div class="card rit rv tilt" style="--c:var(--aud);--s:2s;--d:0s"><div class="clock"></div><div class="f">Diario</div><h3>Alertas comerciales</h3><p>Cumplimiento del día, desvíos y oportunidades a la fuerza de ventas.</p></div>
+      <div class="card rit rv tilt" style="--c:var(--com);--s:4s;--d:.1s"><div class="clock"></div><div class="f">Semanal</div><h3>Comité de backlog</h3><p>Todo el equipo prioriza solicitudes y proyectos de los tres frentes juntos.</p></div>
+      <div class="card rit rv tilt" style="--c:var(--mkt);--s:8s;--d:.2s"><div class="clock"></div><div class="f">Mensual</div><h3>Informe integrado</h3><p>Audiencia + Comercial + Market en un solo documento para la dirección.</p></div>
+      <div class="card rit rv tilt" style="--c:var(--new);--s:16s;--d:.3s"><div class="clock"></div><div class="f">Trimestral</div><h3>Insights y tendencias</h3><p>Oportunidades para marcas y recomendaciones de producto.</p></div>
     </div>
   </div>
 </section>
@@ -565,65 +614,141 @@ footer b{color:#fff}
 <!-- HOJA DE RUTA -->
 <section id="hoja-de-ruta">
   <div class="wrap">
-    <div class="sec-head">
+    <div class="sec-head rv">
       <div class="eyebrow">Hoja de ruta</div>
-      <h2>Implementación en tres fases</h2>
+      <h2>Implementación <span class="grad">en tres fases</span></h2>
     </div>
-    <div class="road">
-      <div class="phase p1"><div class="when">Meses 0–3</div><h3>Ordenar la casa</h3>
-        <ul><li>Inventario de las 5 fuentes y criterios únicos (diccionario de datos)</li><li>Banco de datos en la nube con las primeras integraciones</li><li>Mesa única de solicitudes y backlog</li></ul></div>
-      <div class="phase p2"><div class="when">Meses 3–6</div><h3>Ver el negocio completo</h3>
-        <ul><li>Dashboards de Audiencia, Comercial y Market sobre la misma fuente</li><li>Alertas comerciales automáticas</li><li>Incorporación de científicos de datos</li></ul></div>
-      <div class="phase p3"><div class="when">Meses 6–12</div><h3>Anticipar</h3>
-        <ul><li>Modelos de proyección de ingresos y recompra</li><li>Segmentos first-party de afinidad para venta directa</li><li>Recomendaciones de pricing y oportunidades por marca</li></ul></div>
+    <div class="road" id="road">
+      <div class="line"><i></i></div>
+      <div class="card phase rv" style="--c:var(--aud);--d:.1s"><div class="when">MESES 0–3</div><h3>Ordenar la casa</h3><ul><li>Inventario de las 5 fuentes y diccionario de datos único</li><li>Banco de datos en la nube con primeras integraciones</li><li>Mesa única de solicitudes y backlog</li></ul></div>
+      <div class="card phase rv" style="--c:var(--com);--d:.4s"><div class="when">MESES 3–6</div><h3>Ver el negocio completo</h3><ul><li>Dashboards de Audiencia, Comercial y Market sobre la misma fuente</li><li>Alertas comerciales automáticas</li><li>Inicio de la ruta de ciencia de datos para 2 juniors</li></ul></div>
+      <div class="card phase rv" style="--c:var(--mkt);--d:.7s"><div class="when">MESES 6–12</div><h3>Anticipar</h3><ul><li>Modelos de proyección de ingresos y recompra</li><li>Segmentos first-party de afinidad para venta directa</li><li>Recomendaciones de pricing y oportunidades por marca</li></ul></div>
     </div>
   </div>
 </section>
 
-<footer>
+<section class="closing">
+  <div class="blob b1" style="top:10%;right:10%;opacity:.2"></div><div class="blob b2" style="bottom:-30%;left:10%;opacity:.2"></div>
   <div class="wrap">
-    <div><b>Inteligencia de Negocios</b> · Prisa Media Colombia</div>
-    <div>Audiencia · Comercial · Market — una sola área</div>
+    <h2 class="rv">Audiencia · Comercial · Market<br><span class="grad">una sola inteligencia.</span></h2>
+    <p class="rv" style="--d:.15s">Datos que se convierten en decisiones, y decisiones que se convierten en ingresos.</p>
   </div>
-</footer>
+</section>
+
+<footer><div class="wrap"><span><b style="color:var(--ink)">Inteligencia de Negocios</b> · Prisa Media Colombia</span><span>Una sola área integrada</span></div></footer>
 
 <script>
 (function(){
-  var root=document.documentElement, btn=document.getElementById('themeBtn');
-  try{var t=localStorage.getItem('in-theme'); if(t) root.setAttribute('data-theme',t);}catch(e){}
-  btn.addEventListener('click',function(){
-    var cur=root.getAttribute('data-theme') || (matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
-    var nx=cur==='dark'?'light':'dark'; root.setAttribute('data-theme',nx);
-    try{localStorage.setItem('in-theme',nx);}catch(e){}
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* scroll progress + nav hide + active link */
+  var prog=document.getElementById('progress'), nav=document.getElementById('nav'), lastY=0;
+  var links=[].slice.call(document.querySelectorAll('.links a'));
+  function onScroll(){
+    var y=scrollY, h=document.documentElement.scrollHeight-innerHeight;
+    prog.style.transform='scaleX('+(h>0?y/h:0)+')';
+    nav.classList.toggle('hide', y>lastY && y>400); lastY=y;
+    var cur=null; links.forEach(function(a){var s=document.querySelector(a.getAttribute('href')); if(s && s.getBoundingClientRect().top<innerHeight*.4) cur=a;});
+    links.forEach(function(a){a.classList.toggle('on',a===cur);});
+  }
+  addEventListener('scroll',onScroll,{passive:true}); onScroll();
+
+  /* cursor glow */
+  var glow=document.getElementById('glow');
+  if(reduce||matchMedia('(pointer:coarse)').matches){glow.style.display='none';}
+  else addEventListener('pointermove',function(e){glow.style.transform='translate('+(e.clientX-260)+'px,'+(e.clientY-260)+'px)';});
+
+  /* reveal + counters */
+  function count(el){
+    var to=+el.dataset.count, t0=null;
+    function f(t){if(!t0)t0=t; var p=Math.min(1,(t-t0)/1400), e=1-Math.pow(1-p,3); el.textContent=Math.round(to*e); if(p<1)requestAnimationFrame(f);}
+    reduce?el.textContent=to:requestAnimationFrame(f);
+  }
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){
+    if(!e.isIntersecting) return;
+    e.target.classList.add('in');
+    e.target.querySelectorAll('[data-count]').forEach(count);
+    if(e.target.id==='team') document.getElementById('orgLines').classList.add('in');
+    io.unobserve(e.target);
+  });},{threshold:.15,rootMargin:'0px 0px -8% 0px'});
+  document.querySelectorAll('.rv,#team,#road').forEach(function(el){io.observe(el);});
+
+  /* card spotlight + tilt */
+  document.querySelectorAll('.card').forEach(function(c){
+    c.addEventListener('pointermove',function(e){
+      var r=c.getBoundingClientRect(), x=e.clientX-r.left, y=e.clientY-r.top;
+      c.style.setProperty('--mx',x+'px'); c.style.setProperty('--my',y+'px');
+      if(c.classList.contains('tilt')&&!reduce&&c.classList.contains('in')){
+        var rx=((y/r.height)-.5)*-6, ry=((x/r.width)-.5)*6;
+        c.style.transform='perspective(900px) rotateX('+rx+'deg) rotateY('+ry+'deg) translateY(-4px)';
+      }
+    });
+    c.addEventListener('pointerleave',function(){ if(c.classList.contains('tilt')) c.style.transform=''; });
   });
 
+  /* rotating word */
+  var words=[].slice.call(document.querySelectorAll('#rot b')), wi=0;
+  if(!reduce) setInterval(function(){
+    var cur=words[wi]; cur.classList.remove('on'); cur.classList.add('out');
+    setTimeout(function(){cur.classList.remove('out');},700);
+    wi=(wi+1)%words.length; words[wi].classList.add('on');
+  },2200);
+
+  /* marquee duplicate */
+  var mq=document.getElementById('mq'); mq.innerHTML+=mq.innerHTML;
+
+  /* hero network canvas */
+  var cv=document.getElementById('net'), cx=cv.getContext('2d'), pts=[], W,H,DPR=Math.min(2,devicePixelRatio||1), mouse={x:-999,y:-999};
+  var cols=['#0096DC','#FD006E','#FFCB00','#ffffff'];
+  function size(){W=cv.clientWidth;H=cv.clientHeight;cv.width=W*DPR;cv.height=H*DPR;cx.setTransform(DPR,0,0,DPR,0,0);
+    var n=Math.min(90,Math.round(W*H/16000)); pts=[];
+    for(var i=0;i<n;i++)pts.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.45,vy:(Math.random()-.5)*.45,c:cols[i%4],r:Math.random()*2+1.2});}
+  size(); addEventListener('resize',size);
+  cv.parentNode.addEventListener('pointermove',function(e){var r=cv.getBoundingClientRect();mouse.x=e.clientX-r.left;mouse.y=e.clientY-r.top;});
+  function draw(){
+    cx.clearRect(0,0,W,H);
+    for(var i=0;i<pts.length;i++){var p=pts[i];
+      p.x+=p.vx;p.y+=p.vy; if(p.x<0||p.x>W)p.vx*=-1; if(p.y<0||p.y>H)p.vy*=-1;
+      var dx=p.x-mouse.x,dy=p.y-mouse.y,d=Math.hypot(dx,dy); if(d<140){p.x+=dx/d*1.2;p.y+=dy/d*1.2;}
+      for(var j=i+1;j<pts.length;j++){var q=pts[j],dd=Math.hypot(p.x-q.x,p.y-q.y);
+        if(dd<130){cx.strokeStyle=p.c;cx.globalAlpha=(1-dd/130)*.35;cx.lineWidth=1;cx.beginPath();cx.moveTo(p.x,p.y);cx.lineTo(q.x,q.y);cx.stroke();}}
+      cx.globalAlpha=.9;cx.fillStyle=p.c;cx.beginPath();cx.arc(p.x,p.y,p.r,0,7);cx.fill();}
+    cx.globalAlpha=1;
+    if(!reduce) requestAnimationFrame(draw);
+  }
+  draw();
+
+  /* venn details */
   var D={
-    ACM:{t:'Centro · DATA',c:'#1e2329',q:'¿Qué audiencia, para qué anunciante, a qué precio y en qué momento?',
+    ACM:{t:'Centro · DATA',c:'#ffffff',q:'¿Qué audiencia, para qué anunciante, a qué precio y en qué momento?',
       l:['Banco de datos único y un mismo criterio para las tres miradas','Informe integrado mensual para la dirección','Oportunidades de negocio priorizadas para venta directa','Recomendaciones para producto y contenidos basadas en monetización'],
-      ex:'Ejemplo: una categoría crece en el mercado (M), tenemos una comunidad afín en PRISA ID (A) y hay clientes de ese sector sin recompra (C) → oportunidad con propuesta, audiencia y precio sugerido.'},
-    CM:{t:'Comercial + Market',c:'#FD006E',q:'¿Dónde está el dinero del mercado que todavía no estamos capturando?',
-      l:['Generar alertas comerciales','Detectar oportunidades de mercado','Evaluar participación de mercado (share of wallet)','Monitoreo de anunciantes, sectores y categorías'],
-      ex:'Ejemplo: un anunciante aumentó su inversión en radio un 30% y nuestra participación cayó → alerta al ejecutivo con datos de contexto.'},
+      ex:'Una categoría crece en el mercado (M), tenemos una comunidad afín en PRISA ID (A) y hay clientes de ese sector sin recompra (C) → oportunidad con propuesta, audiencia y precio sugerido.'},
+    CM:{t:'Comercial + Market',c:'#FD006E',q:'¿Dónde está el dinero del mercado que todavía no capturamos?',
+      l:['Generar alertas comerciales','Detectar oportunidades de mercado','Evaluar participación de mercado','Monitoreo de anunciantes, sectores y categorías'],
+      ex:'Un anunciante aumentó su inversión en radio y nuestra participación cayó → alerta al ejecutivo con datos de contexto.'},
     AM:{t:'Audiencia + Market',c:'#FFCB00',q:'¿Qué valor tiene nuestra audiencia frente a la competencia?',
-      l:['Ejercicios de benchmarking y pricing','Afinidad entre nuestras audiencias y los anunciantes','Prospección de clientes','Entendimiento de los públicos y de las estrategias de las marcas'],
-      ex:'Ejemplo: nuestra audiencia 25–34 en podcast es mayor que la de la competencia a menor costo → argumento de precio para la oferta.'},
-    AC:{t:'Audiencia + Comercial',c:'#0096DC',q:'¿Qué contenidos y formatos generan ingresos y cuáles no?',
+      l:['Ejercicios de benchmarking y pricing','Afinidad entre nuestras audiencias y los anunciantes','Prospección de clientes','Entendimiento de los públicos y estrategias de las marcas'],
+      ex:'Nuestra audiencia 25–34 en podcast supera a la competencia a menor costo → argumento de precio para la oferta.'},
+    AC:{t:'Audiencia + Comercial',c:'#0096DC',q:'¿Qué contenidos y formatos generan ingresos?',
       l:['Seguimiento a la monetización','Evaluar comercialmente formatos y contenidos','Casos de éxito y buenas prácticas','Seguimiento a propuestas comerciales','Informes de cierre y recompra (alcance y frecuencia)'],
-      ex:'Ejemplo: el informe de cierre muestra alcance y frecuencia logrados vs. prometidos y alimenta la propuesta de recompra.'}
+      ex:'El informe de cierre muestra alcance y frecuencia logrados vs. prometidos y alimenta la propuesta de recompra.'}
   };
-  var det=document.getElementById('detail');
+  var det=document.getElementById('detail'), order=['ACM','CM','AM','AC'], cur='ACM', auto;
   function show(k){
-    var d=D[k];
-    det.innerHTML='<div style="width:40px;height:6px;border-radius:3px;background:'+d.c+';margin-bottom:12px"></div><h3>'+d.t+'</h3><p class="q">'+d.q+'</p><ul>'+d.l.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul><div class="ex">'+d.ex+'</div>';
+    cur=k; var d=D[k];
+    det.style.setProperty('--c',d.c);
+    det.innerHTML='<div class="inner"><div style="width:56px;height:6px;border-radius:3px;background:'+d.c+';margin-bottom:16px"></div><h3>'+d.t+'</h3><p class="q">'+d.q+'</p><ul>'+d.l.map(function(x,i){return '<li style="animation-delay:'+(.1+i*.08)+'s">'+x+'</li>';}).join('')+'</ul><div class="ex"><b style="color:var(--ink)">Ejemplo · </b>'+d.ex+'</div></div>';
     document.querySelectorAll('.inter-tabs button').forEach(function(b){b.setAttribute('aria-selected',b.dataset.k===k?'true':'false');});
     document.querySelectorAll('.venn .hot').forEach(function(g){g.classList.toggle('on',g.dataset.k===k);});
   }
-  document.querySelectorAll('.inter-tabs button').forEach(function(b){b.addEventListener('click',function(){show(b.dataset.k);});});
+  function pick(k){show(k); clearInterval(auto);}
+  document.querySelectorAll('.inter-tabs button').forEach(function(b){b.addEventListener('click',function(){pick(b.dataset.k);});});
   document.querySelectorAll('.venn .hot').forEach(function(g){
-    g.addEventListener('click',function(){show(g.dataset.k);});
-    g.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();show(g.dataset.k);}});
+    g.addEventListener('click',function(){pick(g.dataset.k);});
+    g.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();pick(g.dataset.k);}});
   });
   show('ACM');
+  if(!reduce) auto=setInterval(function(){show(order[(order.indexOf(cur)+1)%4]);},5000);
 })();
 </script>
 </body>
